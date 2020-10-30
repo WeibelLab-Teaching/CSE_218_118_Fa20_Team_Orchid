@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title>Sample using Babylon js</title>
+
+        <!-- Babylon.js -->
+        <script src="https://preview.babylonjs.com/gltf_validator.js"></script>
+        <script src="https://preview.babylonjs.com/babylon.js"></script>
+        <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+     
+        <style>
+         html, body { overflow: hidden; width: 100%; height: 100%; margin: 0; padding: 0; }
+
+         #renderCanvas { width: 100%; height: 100%; touch-action: none; }
+        </style>
+    </head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+    <script>
+        var canvas = document.getElementById("renderCanvas");
+
+        var createScene = function() {
+            // Create scene
+        	var scene = new BABYLON.Scene(engine);
+            // Default Environment
+            var environment =  scene.createDefaultEnvironment({ 
+                    createSkybox: false,
+//                    skyboxSize: 150,
+//                    skyboxColor: BABYLON.Color3.Teal(),
+                    createGround: true,
+                    groundSize: 1000,
+                    //groundColor: BABYLON.Color3.Green(),
+                    enableGroundShadow: true, 
+                    groundYBias: 1 
+            });
+
+            var skyMaterial = new BABYLON.StandardMaterial("skybox", scene);
+                skyMaterial.backFaceCulling = false;
+                skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
+                skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+                skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+                skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+            var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
+               skybox.material = skyMaterial;
+
+            // Enable VR
+            var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+            vrHelper.enableTeleportation({floorMeshes: [environment.ground]});
+
+            var building = BABYLON.SceneLoader.Append("./", "lamp.glb", scene, function (meshes) {    
+                scene.createDefaultCameraOrLight(true, true, true);
+
+            });         
+        	return scene;
+        };
+               
+        var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            if (scene) {
+                scene.render();
+            }
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
+</body>
+</html>
