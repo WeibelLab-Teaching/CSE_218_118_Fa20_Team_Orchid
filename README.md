@@ -9,6 +9,6 @@ Created project based on tutorials:
 
 ## Instructions to run:
 
-python -m https.server
+python -m http.server
 
 will run in localhost:8000.
