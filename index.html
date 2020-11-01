@@ -26,71 +26,78 @@
     <script>
         var canvas = document.getElementById("renderCanvas");
 
-        var createScene = function() {
-            // Create scene
-        	var scene = new BABYLON.Scene(engine);
-            // Default Environment
-            var environment =  scene.createDefaultEnvironment({ 
-                    createSkybox: false,
-                    createGround: true,
-                    groundSize: 1000,
-                    enableGroundShadow: true, 
-                    groundYBias: 1 
-            });
+        var createScene = function () {
+    var scene = new BABYLON.Scene(engine);
 
-            // Skybox
-            var skyMaterial = new BABYLON.StandardMaterial("skybox", scene);
-                skyMaterial.backFaceCulling = false;
-                skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
-                skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
-                skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
-                skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
-            var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
-               skybox.material = skyMaterial;
+    // Lights
+    var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-2, -5, 2), scene);
+    var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
 
-            // Audio Creation
-            var isMusicPlaying = false;
-            var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, {loop: true });
+    // Need a free camera for collisions
+    var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 5, -20), scene);
+    camera.minZ = .01;
+    camera.attachControl(canvas, true);
 
-            console.log("can print things on here");
-            
-            function soundReady() {
-                if (isMusicPlaying) {
-                    console.log("Sound is being paused");
-                    music.pause();
-                    isMusicPlaying = false;
-                }
-                else {
-                    console.log("Sound is being played");
-                    music.play();
-                    isMusicPlaying = true;
-                }
-            }
 
-            // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
-            window.addEventListener("keydown", function(evt) {
-                // Press space key to toggle music
-                if (evt.keyCode === 32) {
-                    soundReady();
-                }
-            });
+    //Simple crate
+    var box = new BABYLON.MeshBuilder.CreateBox("crate", {
+        width: 40, 
+        height: 10,
+        depth: 40,
+        sideOrientation: 1
+    }, scene);
+    
+    box.material = new BABYLON.StandardMaterial("Mat", scene);
+    box.material.diffuseTexture = new BABYLON.Texture("textures/wood.jpg", scene);
+    box.material.specularColor = new BABYLON.Color3.Black();
+    // box.material.diffuseTexture.hasAlpha = true;
+    box.position = new BABYLON.Vector3(0, 1, -20);
 
-            // Enable VR
-            var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
-            vrHelper.enableTeleportation({floorMeshes: [environment.ground]});
+    //Set gravity for the scene (G force like, on Y-axis)
+    scene.gravity = new BABYLON.Vector3(0, -0.9, 0);
 
-            var box = BABYLON.Mesh.CreateBox("crate", 2, scene);
-            box.material = new BABYLON.StandardMaterial("Mat", scene);
-            box.position = new BABYLON.Vector3(10, 5, 0);
-            music.attachToMesh(box);
+    // Enable Collisions
+    scene.collisionsEnabled = true;
+    box.checkCollisions = true;
 
-            var lamp = BABYLON.SceneLoader.Append("./", "lamp.glb", scene, function (meshes) {    
-                scene.createDefaultCameraOrLight(true, true, true);
+    //Then apply collisions and gravity to the active camera
+    // camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+    camera.checkCollisions = true;
+    camera.applyGravity = true;
+    camera._needMoveForGravity = true;
 
-            });    
-            
-        	return scene;
-        };
+    // Audio Creation
+    var isMusicPlaying = false;
+    var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, {loop: true });
+
+    console.log("can print things on here");
+    
+    function soundReady() {
+        if (isMusicPlaying) {
+            console.log("Sound is being paused");
+            music.pause();
+            isMusicPlaying = false;
+        }
+        else {
+            console.log("Sound is being played");
+            music.play();
+            isMusicPlaying = true;
+        }
+    }
+    // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
+    window.addEventListener("keydown", function(evt) {
+        // Press space key to toggle music
+        if (evt.keyCode === 32) {
+            soundReady();
+        }
+    });
+    var box = BABYLON.Mesh.CreateBox("crate", 2, scene);
+    box.material = new BABYLON.StandardMaterial("Mat", scene);
+    box.position = new BABYLON.Vector3(0, -3, -7);
+    music.attachToMesh(box);
+    return scene;
+}
+        
                
         var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
         var scene = createScene();
