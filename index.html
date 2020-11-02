@@ -10,7 +10,12 @@
     <script src="https://preview.babylonjs.com/gltf_validator.js"></script>
     <script src="https://preview.babylonjs.com/babylon.js"></script>
     <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
-    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script> 
+    
+    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
     <style>
         html,
@@ -36,6 +41,32 @@
     <!--- GUI Display Creation Section: Follow this format -->
     $('body').append('<h1 id="gui elem 1" style="position: absolute; right: 10px; top: 60px;">gui elem 1</h1>');
     $('body').append('<h1 id="gui elem 2" style="position: absolute; right: 10px; top: 100px;">gui elem 2</h1>');
+
+
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyAv63-QpYEuuDfswn58MnOgrerDmr3tFNg",
+            authDomain: "orchid-87a13.firebaseapp.com",
+            databaseURL: "https://orchid-87a13.firebaseio.com",
+            projectId: "orchid-87a13",
+            storageBucket: "orchid-87a13.appspot.com",
+            messagingSenderId: "608170678350",
+            appId: "1:608170678350:web:ce51c44ea69577e28ccb1f",
+            measurementId: "G-1CB5W5R4Y9"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        // test get from firebase
+        db.collection('musics').get().then((snapshot) => {
+            snapshot.docs.forEach(doc => {
+                console.log(doc.data());
+            })
+        })
+    </script>
 
     <script src="main.js"></script>
 </body>
