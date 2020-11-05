@@ -1,5 +1,29 @@
 var canvas = document.getElementById("renderCanvas");
 
+var uploadAudio = function () {
+    const storageRef = firebase.storage().ref();
+
+    var uploader = document.getElementById('uploader');
+    var fileButton = document.getElementById('fileButton');
+    fileButton.addEventListener('change', function (e) {
+        var file = e.target.files[0];
+        var storageRef = firebase.storage().ref(file.name);
+        var task = storageRef.put(file);
+        task.on('state_changed', function progress(snapshot) {
+            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            uploader.value = percentage;
+        }, function error(err) {
+            console.log(error.code);
+        }, function complete() {
+            // Upload completed successfully, now we can get the download URL
+            task.snapshot.ref.getDownloadURL().then(function (url) {
+                downloadURL = url;
+                console.log('File available at', downloadURL);
+            });
+        });
+    });  
+}
+
 var createScene = function () {
     var scene = new BABYLON.Scene(engine);
 
@@ -110,6 +134,10 @@ var createScene = function () {
     // Audio Creation
     var isMusicPlaying = false;
     var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
+    // var musicUrl = "https://firebasestorage.googleapis.com/v0/b/orchid-87a13.appspot.com/o/example.mp3?alt=media&token=bb2fc8c7-9c71-49b9-8dd8-5c5b5125ea41";
+    // var music = new BABYLON.Sound("Violons", "https://www.babylonjs-playground.com/sounds/violons11.wav", scene, soundReady, { loop: true });
+    // var music = new BABYLON.Sound("Violons", musicUrl, scene, soundReady, { loop: true });
+    // var music = new Audio(musicUrl);
 
     console.log("can print things on here");
 
@@ -152,3 +180,6 @@ engine.runRenderLoop(function () {
 window.addEventListener("resize", function () {
     engine.resize();
 });
+
+// test upload 
+uploadAudio();
