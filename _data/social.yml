@@ -1,0 +1,40 @@
+# Icons on the footer
+rss:
+email_address:   lfloresc@ucsd.edu # Full email address, e.g. "sam@example.com"
+behance:
+bitbucket:
+dribbble:
+facebook:
+flickr:
+gitlab:
+github: "Jazz-Trumpet"
+instagram: "syntaxx_errors"
+keybase:
+linkedin:    https://www.linkedin.com/in/luis-flores-cuevas/     # Full URL
+pinterest:
+reddit:
+cashapp: "$LuisFloresCuevas"
+soundcloud:
+stack_overflow:
+stack_exchange:   # Full URL
+steam:
+tumblr:
+twitter:          # "twitter username"
+vimeo:
+wordpress:
+youtube:          # Youtube channel token like: UCqECaJ8Gagnn7YCbPEzWH6g
+
+# rss specify feed path
+
+
+# Share button options
+share:
+  facebook: true
+  twitter: true
+  tumblr:
+  pinterest:
+  pocket:
+  reddit: true
+  linkedin: true
+  wordpress:
+  email: true
