@@ -23,8 +23,8 @@ baseurl:
 url: "https://www.inspirocreative.studio"
 
 # THEME-SPECIFIC CONFIGURATION
-title: "InspiroCreative"                                     # site's title
-description: "A website about Making music and Art"      # used by search engines
+title: "Orchid"                                     # site's title
+description: "Orchestra In Development"      # used by search engines
 avatar: assets/img/Stickers/olin.png          # Empty for no avatar in navbar
 favicon: assets/img/Stickers/olin.ico                             # Icon displayed in the tab
 
