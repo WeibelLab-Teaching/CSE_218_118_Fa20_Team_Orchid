@@ -20,7 +20,7 @@
 
 # SITE CONFIGURATION
 baseurl:
-url: "https://www.inspirocreative.studio"
+url: 
 
 # THEME-SPECIFIC CONFIGURATION
 title: "Orchid"                                     # site's title
