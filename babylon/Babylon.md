@@ -1,8 +1,7 @@
 ---
-layout: default
+layout: post
 title: Babylon js
-img: "assets/img/portfolio/reading.jpg"
-tags: [babylon, Imagination, Reading]
+tags: [babylon]
 ---
 
 {% include_relative index.html %}
