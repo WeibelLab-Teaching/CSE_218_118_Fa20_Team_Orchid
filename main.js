@@ -67,10 +67,40 @@ var createScene = function () {
             soundReady();
         }
     });
-    var audioBox = BABYLON.Mesh.CreateBox("crate", 2, scene);
+
+     // Box in center of room: on spacebar will pause/play music
+    var audioBox = BABYLON.Mesh.CreateBox("cube", 2, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
-    music.attachToMesh(audioBox);
+    audioBox.isPickable = true;
+    music.attachToMesh(audioBox); 
+
+    var daw = BABYLON.Mesh.CreatePlane("daw", 2, scene, true);
+    daw.position = new BABYLON.Vector3(0, 0, 10);
+    daw.parent = camera;
+    daw.setEnabled(false);
+
+    scene.onPointerDown = function (evt, pickResult) {
+        if (pickResult.hit) {
+            if (pickResult.pickedMesh.name == "crate") {
+                console.log("room clicked");
+            }
+            if (pickResult.pickedMesh.name == "cube") {
+                console.log("cube clicked and daw enabled is ", daw.isEnabled(false));
+                if(daw.isEnabled(false) == true) {
+                    daw.setEnabled(false);
+                }
+                else {
+                    daw.setEnabled(true);
+                }
+            }
+            if (pickResult.pickedMesh.name == "daw") {
+                console.log("daw is clicked");
+            }
+        }
+    }
+
+
     return scene;
 }
 
