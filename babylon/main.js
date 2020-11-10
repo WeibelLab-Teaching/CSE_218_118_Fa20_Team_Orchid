@@ -160,7 +160,7 @@ var createScene = function () {
             soundReady();
         }
     });
-    var audioBox = BABYLON.Mesh.CreateBox("crate", 2, scene);
+    var audioBox = BABYLON.Mesh.CreateBox("cube", 2, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
     music.attachToMesh(audioBox);
