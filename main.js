@@ -69,23 +69,56 @@ var createScene = function () {
     });
 
      // Box in center of room: on spacebar will pause/play music
-    var audioBox = BABYLON.Mesh.CreateBox("cube", 2, scene);
+    var audioBox = BABYLON.Mesh.CreateBox("cube", 1, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
-    audioBox.position = new BABYLON.Vector3(0, -3, -7);
+    audioBox.position = new BABYLON.Vector3(-4, -3, -7);
     audioBox.isPickable = true;
     music.attachToMesh(audioBox); 
 
-    var daw = BABYLON.Mesh.CreatePlane("daw", 2, scene, true);
-    daw.position = new BABYLON.Vector3(0, 0, 10);
-    daw.parent = camera;
-    daw.setEnabled(false);
+    var dynamicCylinder = BABYLON.Mesh.CreateCylinder("dynamicCylinder", 1, 1, 1, 24, 1, scene, true);
+    dynamicCylinder.material = new BABYLON.StandardMaterial("Mat", scene);
+    dynamicCylinder.position = new BABYLON.Vector3(-4, -0, -7);
+    dynamicCylinder.isPickable = true;
 
+    // Sphere to pick up/place down
+    var pickupSphere = BABYLON.Mesh.CreateSphere("pickupSphere", 32, 1, scene);
+    pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
+    pickupSphere.isPickable = true;
+
+    var daw = BABYLON.Mesh.CreatePlane("daw", 5, scene, true);
+    daw.position = new BABYLON.Vector3(0, -3, -7);
+    /*daw.parent = camera;
+    daw.setEnabled(false);*/
+
+    var dawFiles = [];
     scene.onPointerDown = function (evt, pickResult) {
         if (pickResult.hit) {
             if (pickResult.pickedMesh.name == "crate") {
                 console.log("room clicked");
             }
-            if (pickResult.pickedMesh.name == "cube") {
+            else if (pickResult.pickedMesh.name == "pickupSphere") {
+                if (pickupSphere.parent == camera) {
+                    pickupSphere.setParent(null);
+                } else {
+                    pickupSphere.setParent(camera);
+                }
+            }
+            else if (pickResult.pickedMesh.name == "dynamicCylinder") {
+                var name = "dawFile".concat(dawFiles.length.toString());
+                console.log("name is: " + name);
+                var obj = new BABYLON.Mesh.CreateBox(name, 0.5, scene)
+                obj.position = new BABYLON.Vector3(0, 0, -7);
+                dawFiles.push(obj);
+            }
+            else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
+                console.log("the " + pickResult.pickedMesh.name + " was selected.");
+                if (pickResult.pickedMesh.parent == camera) {
+                    pickResult.pickedMesh.setParent(null);
+                } else {
+                    pickResult.pickedMesh.setParent(camera);
+                }
+            }
+            else if (pickResult.pickedMesh.name == "cube") {
                 console.log("cube clicked and daw enabled is ", daw.isEnabled(false));
                 if(daw.isEnabled(false) == true) {
                     daw.setEnabled(false);

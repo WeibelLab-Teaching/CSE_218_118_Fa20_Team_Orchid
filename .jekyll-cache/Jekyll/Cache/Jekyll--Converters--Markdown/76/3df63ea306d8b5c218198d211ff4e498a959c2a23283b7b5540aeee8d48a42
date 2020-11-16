@@ -1,0 +1,122 @@
+I"
+<p>Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself.</p>
+
+<h1 id="the-major-scale">The Major Scale:</h1>
+<p>Let us look to C major for some observations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Major 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Major 6th</th>
+      <th>Major 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>E</td>
+      <td>F</td>
+      <td>G</td>
+      <td>A</td>
+      <td>B</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that there are no sharps or flats. We can make different scales with root C by following the guides:</p>
+
+<ol>
+  <li>For a minor scale, the third and the 7th note must become minor.
+Here are C minor scales following this rule:</li>
+</ol>
+
+<h1 id="c-minor-7-2nd-mode">C Minor 7 (2nd Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Major 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>G</td>
+      <td>A</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="c-natural-minor-6th-mode">C Natural Minor (6th Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Minor 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>G</td>
+      <td>Ab</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="c-half-diminished-7th-mode">C Half Diminished (7th Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Diminished 5th</th>
+      <th>Minor 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>Db</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>Gb</td>
+      <td>Ab</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The more flats you add to the notes after Root C, the darker the scale sounds.
+<a href="https://learningmusic.ableton.com/advanced-topics/modes.html" title="Redirect to Modes"><img src="/assets/img/MusicEducation/Major_scale.jpg" alt="Modes" /></a></p>
+:ET

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-09T16:13:41-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Orchid</title><subtitle>Orchestra In Development</subtitle><entry><title type="html">Scales in C</title><link href="http://localhost:4000/2020/07/26/scales.html" rel="alternate" type="text/html" title="Scales in C" /><published>2020-07-26T00:00:00-07:00</published><updated>2020-07-26T00:00:00-07:00</updated><id>http://localhost:4000/2020/07/26/scales</id><content type="html" xml:base="http://localhost:4000/2020/07/26/scales.html">&lt;p&gt;Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself.&lt;/p&gt;
+
+&lt;h1 id=&quot;the-major-scale&quot;&gt;The Major Scale:&lt;/h1&gt;
+&lt;p&gt;Let us look to C major for some observations:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1st  /Root&lt;/th&gt;
+      &lt;th&gt;Major 2nd&lt;/th&gt;
+      &lt;th&gt;Major 3rd&lt;/th&gt;
+      &lt;th&gt;Perfect 4th&lt;/th&gt;
+      &lt;th&gt;Perfect 5th&lt;/th&gt;
+      &lt;th&gt;Major 6th&lt;/th&gt;
+      &lt;th&gt;Major 7th&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;D&lt;/td&gt;
+      &lt;td&gt;E&lt;/td&gt;
+      &lt;td&gt;F&lt;/td&gt;
+      &lt;td&gt;G&lt;/td&gt;
+      &lt;td&gt;A&lt;/td&gt;
+      &lt;td&gt;B&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Note that there are no sharps or flats. We can make different scales with root C by following the guides:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;For a minor scale, the third and the 7th note must become minor.
+Here are C minor scales following this rule:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;c-minor-7-2nd-mode&quot;&gt;C Minor 7 (2nd Mode)&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1st  /Root&lt;/th&gt;
+      &lt;th&gt;Major 2nd&lt;/th&gt;
+      &lt;th&gt;Minor 3rd&lt;/th&gt;
+      &lt;th&gt;Perfect 4th&lt;/th&gt;
+      &lt;th&gt;Perfect 5th&lt;/th&gt;
+      &lt;th&gt;Major 6th&lt;/th&gt;
+      &lt;th&gt;Minor 7th&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;D&lt;/td&gt;
+      &lt;td&gt;Eb&lt;/td&gt;
+      &lt;td&gt;F&lt;/td&gt;
+      &lt;td&gt;G&lt;/td&gt;
+      &lt;td&gt;A&lt;/td&gt;
+      &lt;td&gt;Bb&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;c-natural-minor-6th-mode&quot;&gt;C Natural Minor (6th Mode)&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1st  /Root&lt;/th&gt;
+      &lt;th&gt;Major 2nd&lt;/th&gt;
+      &lt;th&gt;Minor 3rd&lt;/th&gt;
+      &lt;th&gt;Perfect 4th&lt;/th&gt;
+      &lt;th&gt;Perfect 5th&lt;/th&gt;
+      &lt;th&gt;Minor 6th&lt;/th&gt;
+      &lt;th&gt;Minor 7th&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;D&lt;/td&gt;
+      &lt;td&gt;Eb&lt;/td&gt;
+      &lt;td&gt;F&lt;/td&gt;
+      &lt;td&gt;G&lt;/td&gt;
+      &lt;td&gt;Ab&lt;/td&gt;
+      &lt;td&gt;Bb&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;c-half-diminished-7th-mode&quot;&gt;C Half Diminished (7th Mode)&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1st  /Root&lt;/th&gt;
+      &lt;th&gt;Major 2nd&lt;/th&gt;
+      &lt;th&gt;Minor 3rd&lt;/th&gt;
+      &lt;th&gt;Perfect 4th&lt;/th&gt;
+      &lt;th&gt;Diminished 5th&lt;/th&gt;
+      &lt;th&gt;Minor 6th&lt;/th&gt;
+      &lt;th&gt;Minor 7th&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;Db&lt;/td&gt;
+      &lt;td&gt;Eb&lt;/td&gt;
+      &lt;td&gt;F&lt;/td&gt;
+      &lt;td&gt;Gb&lt;/td&gt;
+      &lt;td&gt;Ab&lt;/td&gt;
+      &lt;td&gt;Bb&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The more flats you add to the notes after Root C, the darker the scale sounds.
+&lt;a href=&quot;https://learningmusic.ableton.com/advanced-topics/modes.html&quot; title=&quot;Redirect to Modes&quot;&gt;&lt;img src=&quot;/assets/img/MusicEducation/Major_scale.jpg&quot; alt=&quot;Modes&quot; /&gt;&lt;/a&gt;&lt;/p&gt;</content><author><name>Luis Flores-Cuevas</name></author><category term="Scales" /><category term="Music" /><category term="Modes" /><summary type="html">Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself.</summary></entry></feed>

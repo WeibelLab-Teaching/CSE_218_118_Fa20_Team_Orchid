@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<!--
+    Type on Strap jekyll theme v2.2.4
+    Copyright 2016-2019 Sylhare
+    Theme free for personal and commercial use under the MIT license
+    https://github.com/sylhare/Type-on-Strap/blob/master/LICENSE
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Main JS (navbar.js, katex_init.js and masonry_init.js)-->
+    <script defer src="/assets/js/main.min.js"></script>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="/assets/img/Stickers/olin.ico" type="image/x-icon">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="http://localhost:4000/2020/07/26/scales.html">
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/atom+xml" title="Orchid" href="http://localhost:4000/feed.xml"/>
+    
+    
+
+    <!-- KaTeX 0.8.3 -->
+    <!-- if you have any issue check https://github.com/KaTeX/KaTeX -->
+    
+    <script src="/assets/js/vendor/katex.min.js"></script>
+    
+
+    <!-- Google Analytics -->
+    
+
+    <!-- seo tags -->
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Scales in C | Orchid</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Scales in C" />
+<meta name="author" content="Luis Flores-Cuevas" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself." />
+<meta property="og:description" content="Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself." />
+<link rel="canonical" href="http://localhost:4000/2020/07/26/scales.html" />
+<meta property="og:url" content="http://localhost:4000/2020/07/26/scales.html" />
+<meta property="og:site_name" content="Orchid" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-26T00:00:00-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Scales in C" />
+<script type="application/ld+json">
+{"headline":"Scales in C","dateModified":"2020-07-26T00:00:00-07:00","datePublished":"2020-07-26T00:00:00-07:00","author":{"@type":"Person","name":"Luis Flores-Cuevas"},"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2020/07/26/scales.html"},"url":"http://localhost:4000/2020/07/26/scales.html","description":"Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta property="og:image" content="http://localhost:4000/assets/img/Stickers/worldtree.png " />
+</head>
+
+  <body>
+    <header class="site-header">
+
+    <!-- Logo and title -->
+	<div class="branding">
+        
+		<a href="/">
+			<img alt="logo img" class="avatar" src="/assets/img/Stickers/olin.png" />
+		</a>
+        
+
+		<h1 class="site-title">
+			<a aria-label="Orchid" href="/">
+        Orchid
+      </a>
+		</h1>
+	</div>
+
+    <!-- Toggle menu -->
+    <nav class="clear">
+    <a aria-label="pull" id="pull" class="toggle" href="#">
+    <i class="fa fa-bars fa-lg"></i>
+    </a>
+
+    <!-- Menu -->
+    <ul class="hide">
+        
+
+        
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Babylon js" title="Babylon js" href="/babylon/Babylon.html">
+                     Babylon js 
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="About" title="About" href="/about/">
+                     About 
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Search" title="Search" href="/search/">
+                     <i class="fa fa-search" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            <li class="separator"> | </li>
+            <li>
+                <a class="clear" aria-label="Tags" title="Tags" href="/tags/">
+                     <i class="fa fa-tags" aria-hidden="true"></i>
+                    
+                </a>
+            </li>
+            
+            
+        
+            
+            
+        
+    </ul>
+
+	</nav>
+</header>
+
+    <div class="content">
+      <article >
+  <header id="main" style="">
+    <div class="title-padder">
+      
+      <h1 id="Scales+in+C" class="title">Scales in C</h1>
+      
+
+
+<div class="post-info"><a href="https://github.com/Jazz-Trumpet" target="_blank">
+      <img src="https://avatars0.githubusercontent.com/u/45807682?s=400&u=049510c27756a1d7e7b4c0350d7fd3f42e382a41&v=4">
+    
+    <p class="meta">
+      Luis Flores-Cuevas - July 26, 2020
+    </p></a></div>
+
+      
+    </div>
+  </header>
+
+  <section class="post-content">
+  
+      <p>Music Educators are encouraging you to learn scales and master them well because learning them establishes the most fundamental insights about music itself.</p>
+
+<h1 id="the-major-scale">The Major Scale:</h1>
+<p>Let us look to C major for some observations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Major 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Major 6th</th>
+      <th>Major 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>E</td>
+      <td>F</td>
+      <td>G</td>
+      <td>A</td>
+      <td>B</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that there are no sharps or flats. We can make different scales with root C by following the guides:</p>
+
+<ol>
+  <li>For a minor scale, the third and the 7th note must become minor.
+Here are C minor scales following this rule:</li>
+</ol>
+
+<h1 id="c-minor-7-2nd-mode">C Minor 7 (2nd Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Major 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>G</td>
+      <td>A</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="c-natural-minor-6th-mode">C Natural Minor (6th Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Perfect 5th</th>
+      <th>Minor 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>D</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>G</td>
+      <td>Ab</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="c-half-diminished-7th-mode">C Half Diminished (7th Mode)</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>1st  /Root</th>
+      <th>Major 2nd</th>
+      <th>Minor 3rd</th>
+      <th>Perfect 4th</th>
+      <th>Diminished 5th</th>
+      <th>Minor 6th</th>
+      <th>Minor 7th</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C</td>
+      <td>Db</td>
+      <td>Eb</td>
+      <td>F</td>
+      <td>Gb</td>
+      <td>Ab</td>
+      <td>Bb</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The more flats you add to the notes after Root C, the darker the scale sounds.
+<a href="https://learningmusic.ableton.com/advanced-topics/modes.html" title="Redirect to Modes"><img src="/assets/img/MusicEducation/Major_scale.jpg" alt="Modes" /></a></p>
+
+    
+  </section>
+
+  <!-- Social media shares -->
+  
+
+<div class="share-buttons">
+    <ul class="share-buttons">
+        <div class="meta">Share</div>
+        
+        <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2020%2F07%2F26%2Fscales.html" target="_blank" title=" Facebook">
+			<i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Facebook</span>
+		</a>
+        </li>
+         
+        <li>
+            <a href="https://twitter.com/intent/tweet?text=Scales+in+C%20http%3A%2F%2Flocalhost%3A4000%2F2020%2F07%2F26%2Fscales.html" target="_blank" title="">
+			<i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Tweet</span>
+		</a>
+        </li>
+            
+        <li>
+            <a href="http://www.reddit.com/submit?url=http://localhost:4000/2020/07/26/scales.html&title=Scales+in+C%20%7C%20Orchid" target="_blank" title=" Reddit">
+			<i class="fa fa-reddit-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on Reddit</span>
+		</a>
+        </li>
+         
+        <li>
+            <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2020/07/26/scales.html&title=Scales+in+C%20%7C%20Orchid&summary=&source=http://localhost:4000/2020/07/26/scales.html" target="_blank" title=" LinkedIn">
+			<i class="fa fa-linkedin fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Share on LinkedIn</span>
+		</a>
+        </li>
+          
+        <li>
+            <a href="mailto:?subject=Scales+in+C%20%7C%20Orchid&body=:%20http://localhost:4000/2020/07/26/scales.html" target="_blank" title="">
+			<i class="fa fa-envelope-square fa-2x" aria-hidden="true"></i>
+			<span class="sr-only">Email</span>
+		</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+
+   <!-- Tag list -->
+  
+  
+
+
+<footer>
+  <div class="tag-list">
+    
+      <div class="meta">Tags</div>
+    
+
+    
+    <a class="button" href="/tags#Modes">
+      <p><i class="fa fa-tag fa-fw"></i> Modes</p>
+    </a>
+    
+    <a class="button" href="/tags#Music">
+      <p><i class="fa fa-tag fa-fw"></i> Music</p>
+    </a>
+    
+    <a class="button" href="/tags#Scales">
+      <p><i class="fa fa-tag fa-fw"></i> Scales</p>
+    </a>
+    
+  </div>
+</footer>
+
+
+</article>
+
+<!-- Disqus -->
+
+
+<!-- Post navigation -->
+
+  <div id="post-nav">
+    
+
+    
+</div>
+
+
+
+<!-- To change color of links in the page -->
+<style>
+  
+
+  header#main {
+    background-repeat:no-repeat;
+  
+  }
+</style>
+
+    </div>
+    <div id="post-nav">
+    
+
+    
+</div>
+
+    <footer class="site-footer">
+    <p class="text">
+        Follow on:
+</p>
+            <div class="footer-icons">
+                <ul>
+                <!-- Social icons from Font Awesome, if enabled -->
+                
+
+
+<li>
+    <a href="mailto:lfloresc@ucsd.edu" title="Email">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+    <a href="https://github.com/Jazz-Trumpet" title="Follow on GitHub">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+
+<li>
+    <a href="http://instagram.com/syntaxx_errors"
+       title="Follow on Instagram">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+
+
+
+<li>
+    <a href="https://www.linkedin.com/in/luis-flores-cuevas/" title="Follow on LinkedIn">
+		<span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </ul>
+            </div>
+</footer>
+
+
+
+  </body>
+</html>
