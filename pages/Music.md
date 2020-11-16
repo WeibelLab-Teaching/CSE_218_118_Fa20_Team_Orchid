@@ -5,7 +5,7 @@ img: "assets/img/portfolio/Musicp.png"
 date: 22 July 2020
 tags: [Music, Jazz, Educational]
 ---
-![image]({{ page.img | relative_url }})
+
 
 
 

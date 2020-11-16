@@ -20,7 +20,7 @@
 
 # SITE CONFIGURATION
 baseurl:
-url: 
+url:
 
 # THEME-SPECIFIC CONFIGURATION
 title: "Orchid"                                     # site's title
@@ -29,8 +29,8 @@ avatar: assets/img/Stickers/olin.png          # Empty for no avatar in navbar
 favicon: assets/img/Stickers/olin.ico                             # Icon displayed in the tab
 
 # Header and footer text
-header_text: "Dedicated to inspiring creativity and optimism for the younger generations" # Change Blog header text
-header_feature_image: assets/img/Stickers/worldtree.png
+header_text: "Dedicated to inspiring creativity and music for generations to come" # Change Blog header text
+header_feature_image: assets/img/Stickers/Musicp.png
 footer_text: >
   Follow on:
 
