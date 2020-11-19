@@ -16,10 +16,27 @@ var uploadAudio = function () {
             console.log(error.code);
         }, function complete() {
             // Upload completed successfully, now we can get the download URL
-            task.snapshot.ref.getDownloadURL().then(function (url) {
-                downloadURL = url;
-                console.log('File available at', downloadURL);
-            });
+            task.snapshot.ref.getDownloadURL()
+                .then(function (url) {
+                    downloadURL = url;
+
+                    const newMusic = {
+                        userHandle: "test",
+                        name: "sample1",
+                        createdAt: new Date().toISOString(),
+                        audioUrl: downloadURL
+                    };
+
+                    db.collection('musics')
+                        .add(newMusic)
+                        .then(doc => { })
+                        .catch(err => {
+                            res.status(500).json({ error: `something went wrong` });
+                            console.error(err);
+                        })
+
+                    console.log('File available at', downloadURL);
+                });
         });
     });  
 }
