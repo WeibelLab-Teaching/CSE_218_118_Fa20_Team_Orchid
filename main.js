@@ -4,8 +4,9 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine);
 
     // Lights
-    var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-2, -5, 2), scene);
-    var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
+    //var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-10, -5, 10), scene);
+    //var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
+    var hemisphericLight = new BABYLON.HemisphericLight("Omni", new BABYLON.Vector3(0, 10, -20), scene);
 
     // Need a free camera for collisions
     var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 5, -20), scene);
@@ -85,15 +86,21 @@ var createScene = function () {
     pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
     pickupSphere.isPickable = true;
 
-    var daw = BABYLON.Mesh.CreatePlane("daw", 5, scene, true);
-    daw.position = new BABYLON.Vector3(0, -3, -7);
+    var dawMaterial = new BABYLON.StandardMaterial("dawMaterial", scene);
+    dawMaterial.ambientColor = new BABYLON.Color3(0.9, 0.9, 0.9);
+    dawMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    dawMaterial.specularColor = new BABYLON.Color3(0.7, 0.7, 0.7);
+
+    var daw = BABYLON.Mesh.CreatePlane("daw", 7, scene, true);
+    daw.position = new BABYLON.Vector3(0, -2, -4);
+    daw.material = dawMaterial;
     /*daw.parent = camera;
     daw.setEnabled(false);*/
 
     // material for dynamic waveform objects
     var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", scene);
     waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", scene);
-    waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
     waveformMaterial.backFaceCulling = false;
 
     var dawFiles = [];
