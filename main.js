@@ -90,6 +90,12 @@ var createScene = function () {
     /*daw.parent = camera;
     daw.setEnabled(false);*/
 
+    // material for dynamic waveform objects
+    var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", scene);
+    waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", scene);
+    waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+    waveformMaterial.backFaceCulling = false;
+
     var dawFiles = [];
     scene.onPointerDown = function (evt, pickResult) {
         if (pickResult.hit) {
@@ -106,9 +112,15 @@ var createScene = function () {
             else if (pickResult.pickedMesh.name == "dynamicCylinder") {
                 var name = "dawFile".concat(dawFiles.length.toString());
                 console.log("name is: " + name);
-                var obj = new BABYLON.Mesh.CreateBox(name, 0.5, scene)
+                var obj = BABYLON.MeshBuilder.CreatePlane(name, {width:2,height:1}, scene);
                 obj.position = new BABYLON.Vector3(0, 0, -7);
+                obj.height = 1;
+                obj.width = 2;
+                obj.setEnabled(true);
+                console.log("height of obj is " + obj.height + " and width is " + obj.width);
+                obj.material = waveformMaterial;
                 dawFiles.push(obj);
+                console.log(obj);
             }
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
