@@ -12,6 +12,7 @@ var createScene = function () {
     var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 5, -20), scene);
     camera.minZ = .01;
     camera.attachControl(canvas, true);
+    camera.speed = .75;
 
 
     //Simple crate
@@ -72,13 +73,13 @@ var createScene = function () {
      // Box in center of room: on spacebar will pause/play music
     var audioBox = BABYLON.Mesh.CreateBox("cube", 1, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
-    audioBox.position = new BABYLON.Vector3(-4, -3, -7);
+    audioBox.position = new BABYLON.Vector3(-6.5, -3, -7);
     audioBox.isPickable = true;
     music.attachToMesh(audioBox); 
 
     var dynamicCylinder = BABYLON.Mesh.CreateCylinder("dynamicCylinder", 1, 1, 1, 24, 1, scene, true);
     dynamicCylinder.material = new BABYLON.StandardMaterial("Mat", scene);
-    dynamicCylinder.position = new BABYLON.Vector3(-4, -0, -7);
+    dynamicCylinder.position = new BABYLON.Vector3(-6.5, -0, -7);
     dynamicCylinder.isPickable = true;
 
     // Sphere to pick up/place down
@@ -91,11 +92,16 @@ var createScene = function () {
     dawMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     dawMaterial.specularColor = new BABYLON.Color3(0.7, 0.7, 0.7);
 
-    var daw = BABYLON.Mesh.CreatePlane("daw", 7, scene, true);
-    daw.position = new BABYLON.Vector3(0, -2, -4);
+    var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
+    daw.position = new BABYLON.Vector3(0, -1, -4);
     daw.material = dawMaterial;
     /*daw.parent = camera;
     daw.setEnabled(false);*/
+
+    // Tab to represent initial project (more tabs in future)
+    var dawtab = BABYLON.MeshBuilder.CreatePlane("tab", {width: 3, height: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
+    dawtab.position = new BABYLON.Vector3(-5.4, .5, -4);
+    dawtab.material = dawMaterial;
 
     // material for dynamic waveform objects
     var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", scene);
@@ -138,17 +144,23 @@ var createScene = function () {
                 }
             }
             else if (pickResult.pickedMesh.name == "cube") {
-                console.log("cube clicked and daw enabled is ", daw.isEnabled(false));
-                if(daw.isEnabled(false) == true) {
-                    daw.setEnabled(false);
+                console.log("cube clicked and daw enabled is ", daw.isEnabled(false), dawtab.isEnabled(false));
+                if(daw.isEnabled(false), dawtab.isEnabled(false) == true) {
+                    daw.setEnabled(false), dawtab.setEnabled(false);
                 }
                 else {
-                    daw.setEnabled(true);
+                    daw.setEnabled(true), dawtab.setEnabled(true);
                 }
             }
             if (pickResult.pickedMesh.name == "daw") {
                 console.log("daw is clicked");
+
             }
+            if (pickResult.pickedMesh.name == "tab") {
+                console.log("tab is clicked");
+
+            }
+            
         }
     }
 
