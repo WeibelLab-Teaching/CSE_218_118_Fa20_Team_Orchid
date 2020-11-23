@@ -41,6 +41,11 @@ var uploadAudio = function () {
     });  
 }
 
+var loadMusic = function () {
+    
+
+}
+
 var createScene = function () {
     var scene = new BABYLON.Scene(engine);
 
@@ -148,13 +153,34 @@ var createScene = function () {
     var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
     vrHelper.enableTeleportation({floorMeshes: [box]});
 
-    // Audio Creation
+    var music;
+    const storageRef = firebase.storage().ref();
+    storageRef.child('example.mp3').getDownloadURL().then(url => {
+        return axios({
+            method: 'get',
+            url: url,
+            responseType: 'blob'
+        })
+    }).then(blob => {
+        return blob.data.arrayBuffer();
+    }).then(buffer => {
+        music = new BABYLON.Sound(
+            "FromArrayBuffer",
+            buffer,
+            scene,
+            soundReady,
+            { loop: true }
+        );
+        music.attachToMesh(audioBox);
+    }).catch(function (error) {
+        console.error(error);
+    });
+    
+
     var isMusicPlaying = false;
-    var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
-    // var musicUrl = "https://firebasestorage.googleapis.com/v0/b/orchid-87a13.appspot.com/o/example.mp3?alt=media&token=bb2fc8c7-9c71-49b9-8dd8-5c5b5125ea41";
-    // var music = new BABYLON.Sound("Violons", "https://www.babylonjs-playground.com/sounds/violons11.wav", scene, soundReady, { loop: true });
+    // var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
+    // var musicUrl = "https://firebasestorage.googleapis.com/v0/b/orchid-87a13.appspot.com/o/guitar.mp3?alt=media&token=49130c88-ed13-4da7-97af-8184143dcb9b";
     // var music = new BABYLON.Sound("Violons", musicUrl, scene, soundReady, { loop: true });
-    // var music = new Audio(musicUrl);
 
     console.log("can print things on here");
 
@@ -180,7 +206,7 @@ var createScene = function () {
     var audioBox = BABYLON.Mesh.CreateBox("crate", 2, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
-    music.attachToMesh(audioBox);
+    // music.attachToMesh(audioBox);
     return scene;
 }
 
