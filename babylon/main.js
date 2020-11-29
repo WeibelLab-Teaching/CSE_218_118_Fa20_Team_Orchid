@@ -21,8 +21,8 @@ var uploadAudio = function () {
                     downloadURL = url;
 
                     const newMusic = {
-                        userHandle: "test",
-                        name: "sample1",
+                        userHandle: "public",
+                        name: file.name,
                         createdAt: new Date().toISOString(),
                         audioUrl: downloadURL
                     };
@@ -41,12 +41,52 @@ var uploadAudio = function () {
     });  
 }
 
-var loadMusic = function () {
-    
-
+var loadMusic = async function (fileName, scene, soundReady, audioBox) {
+    const storageRef = firebase.storage().ref();
+    storageRef.child(fileName).getDownloadURL().then(url => {
+        return axios({
+            method: 'get',
+            url: url,
+            responseType: 'blob'
+        })
+    }).then(blob => {
+        return blob.data.arrayBuffer();
+    }).then(buffer => {
+        music = new BABYLON.Sound("FromArrayBuffer", buffer, scene, soundReady, { 
+            loop: true,
+            autoplay: false
+        });
+        music.attachToMesh(audioBox);
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
-var createScene = function () {
+var displaySamples = function () {
+    db
+        .collection('musics')
+        .get()
+        .then((data) => {
+            let samples = [];
+            data.forEach((doc) => {
+                samples.push({
+                    userHandle: doc.data().userHandle,
+                    name: doc.data().name,
+                    createdAt: doc.data().createdAt,
+                    audioUrl: doc.data().audioUrl
+                });
+            });
+            console.log(samples)
+            return JSON.stringify(samples);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        });
+}
+
+
+var createScene = async function () {
     var scene = new BABYLON.Scene(engine);
 
     // Lights
@@ -153,37 +193,7 @@ var createScene = function () {
     var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
     vrHelper.enableTeleportation({floorMeshes: [box]});
 
-    var music;
-    const storageRef = firebase.storage().ref();
-    storageRef.child('example.mp3').getDownloadURL().then(url => {
-        return axios({
-            method: 'get',
-            url: url,
-            responseType: 'blob'
-        })
-    }).then(blob => {
-        return blob.data.arrayBuffer();
-    }).then(buffer => {
-        music = new BABYLON.Sound(
-            "FromArrayBuffer",
-            buffer,
-            scene,
-            soundReady,
-            { loop: true }
-        );
-        music.attachToMesh(audioBox);
-    }).catch(function (error) {
-        console.error(error);
-    });
-    
-
-    var isMusicPlaying = false;
-    // var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
-    // var musicUrl = "https://firebasestorage.googleapis.com/v0/b/orchid-87a13.appspot.com/o/guitar.mp3?alt=media&token=49130c88-ed13-4da7-97af-8184143dcb9b";
-    // var music = new BABYLON.Sound("Violons", musicUrl, scene, soundReady, { loop: true });
-
-    console.log("can print things on here");
-
+    var isMusicPlaying = true;
     function soundReady() {
         if (isMusicPlaying) {
             console.log("Sound is being paused");
@@ -206,23 +216,33 @@ var createScene = function () {
     var audioBox = BABYLON.Mesh.CreateBox("crate", 2, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
-    // music.attachToMesh(audioBox);
+    music = await loadMusic('example.mp3', scene, soundReady, audioBox);
+
+    var samples = displaySamples();
+    console.log(samples)
+
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     return scene;
-}
+};
 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
-var scene = createScene();
 
-engine.runRenderLoop(function () {
-    if (scene) {
-        scene.render();
-    }
-});
+(async () => {
 
-// Resize
-window.addEventListener("resize", function () {
-    engine.resize();
-});
+    var scene = await createScene();
 
-// test upload 
-uploadAudio();
+    engine.runRenderLoop(function () {
+        if (scene) {
+            scene.render();
+        }
+    });
+
+    // Resize
+    window.addEventListener("resize", function () {
+        engine.resize();
+    });
+
+    // test upload 
+    uploadAudio();
+
+})();
