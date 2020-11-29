@@ -62,8 +62,8 @@ var loadMusic = async function (fileName, scene, soundReady, audioBox) {
     });
 }
 
-var displaySamples = function () {
-    db
+var displaySamples = async function () {
+    return db
         .collection('musics')
         .get()
         .then((data) => {
@@ -76,7 +76,6 @@ var displaySamples = function () {
                     audioUrl: doc.data().audioUrl
                 });
             });
-            console.log(samples)
             return JSON.stringify(samples);
         })
         .catch((err) => {
@@ -218,8 +217,8 @@ var createScene = async function () {
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
     music = await loadMusic('example.mp3', scene, soundReady, audioBox);
 
-    var samples = displaySamples();
-    console.log(samples)
+    let samples = await displaySamples();
+    console.log(samples);
 
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     return scene;

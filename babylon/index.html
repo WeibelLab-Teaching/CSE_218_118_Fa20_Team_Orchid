@@ -68,12 +68,6 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-        // test get from firebase
-        db.collection('musics').get().then((snapshot) => {
-            snapshot.docs.forEach(doc => {
-                console.log(doc.data());
-            })
-        })
     </script>
 
     <script src="main.js"></script>
