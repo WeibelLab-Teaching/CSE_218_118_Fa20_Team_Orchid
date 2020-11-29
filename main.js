@@ -45,21 +45,38 @@ var createScene = function () {
     //vrHelper.enableTeleportation({floorMeshes: [environment.ground]});
 
     // Audio Creation
-    var isMusicPlaying = false;
-    var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
+    var isMusicPlaying = true;
+    //var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
 
-    console.log("can print things on here");
+    var music1 = new BABYLON.Sound("rolling_A1", "rolling_A1.mp3", scene, soundReady, {loop: false});
+    var music2 = new BABYLON.Sound("rolling_A2", "rolling_A2.mp3", scene, soundReady, {loop: false});
+    var music3 = new BABYLON.Sound("rolling_S1", "rolling_S1.mp3", scene, soundReady, {loop: false});
+    var music4 = new BABYLON.Sound("rolling_S2", "rolling_S2.mp3", scene, soundReady, {loop: false});
+    var music5 = new BABYLON.Sound("rolling_S3", "rolling_S3.mp3", scene, soundReady, {loop: false});
+
+    var soundsReady = 0;
 
     function soundReady() {
-        if (isMusicPlaying) {
-            console.log("Sound is being paused");
-            music.pause();
-            isMusicPlaying = false;
-        }
-        else {
-            console.log("Sound is being played");
-            music.play();
-            isMusicPlaying = true;
+        soundsReady++;
+        if(soundsReady >= 1) {
+            if (isMusicPlaying) {
+                console.log("Sound is being paused");
+                music1.pause();
+                music2.pause();
+                music3.pause();
+                music4.pause();
+                music5.pause();
+                isMusicPlaying = false;
+            }
+            else {
+                console.log("Sound is being played");
+                music1.play();
+                music2.play();
+                music3.play();
+                music4.play();
+                music5.play();
+                isMusicPlaying = true;
+            }
         }
     }
     // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
@@ -75,7 +92,11 @@ var createScene = function () {
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(-6.5, -3, -7);
     audioBox.isPickable = true;
-    music.attachToMesh(audioBox); 
+    /*music1.attachToMesh(audioBox); 
+    music2.attachToMesh(audioBox);
+    music3.attachToMesh(audioBox);
+    music4.attachToMesh(audioBox);
+    music5.attachToMesh(audioBox);*/
 
     var dynamicCylinder = BABYLON.Mesh.CreateCylinder("dynamicCylinder", 1, 1, 1, 24, 1, scene, true);
     dynamicCylinder.material = new BABYLON.StandardMaterial("Mat", scene);
@@ -90,18 +111,29 @@ var createScene = function () {
     var dawMaterial = new BABYLON.StandardMaterial("dawMaterial", scene);
     dawMaterial.ambientColor = new BABYLON.Color3(0.9, 0.9, 0.9);
     dawMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
-    dawMaterial.specularColor = new BABYLON.Color3(0.7, 0.7, 0.7);
+    dawMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
     var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     daw.position = new BABYLON.Vector3(0, -1, -4);
     daw.material = dawMaterial;
-    /*daw.parent = camera;
-    daw.setEnabled(false);*/
 
     // Tab to represent initial project (more tabs in future)
     var dawtab = BABYLON.MeshBuilder.CreatePlane("tab", {width: 3, height: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     dawtab.position = new BABYLON.Vector3(-5.4, .5, -4);
     dawtab.material = dawMaterial;
+
+    //var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateForMesh(daw);
+    //var advancedTexture = BABYLON.GUI
+    /*var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button1.width = 1;
+    button1.height = 0.4;
+    button1.color = "white";
+    button1.fontSize = 50;
+    button1.background = "green";
+    button1.onPointerUpObservable.add(function() {
+        alert("you did it!");
+    });
+    advancedTexture.addControl(button1);*/
 
     // material for dynamic waveform objects
     var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", scene);
@@ -132,6 +164,23 @@ var createScene = function () {
                 obj.setEnabled(true);
                 console.log("height of obj is " + obj.height + " and width is " + obj.width);
                 obj.material = waveformMaterial;
+                switch(dawFiles.length) {
+                    case 1:
+                        music1.attachToMesh(obj);
+                        break;
+                    case 2:
+                        music2.attachToMesh(obj);
+                        break;
+                    case 3:
+                        music3.attachToMesh(obj);
+                        break;
+                    case 4:
+                        music4.attachToMesh(obj);
+                        break;
+                    case 5:
+                        music5.attachToMesh(obj);
+                        break;
+                }
                 dawFiles.push(obj);
                 console.log(obj);
             }
