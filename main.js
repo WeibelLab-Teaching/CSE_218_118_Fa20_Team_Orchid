@@ -12,7 +12,7 @@ var createScene = function () {
     var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 5, -20), scene);
     camera.minZ = .01;
     camera.attachControl(canvas, true);
-    camera.speed = .75;
+    camera.speed = .75;  
 
 
     //Simple crate
@@ -108,10 +108,21 @@ var createScene = function () {
     pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
     pickupSphere.isPickable = true;
 
+    // Donut shape on top of audio box 
+    var laneTorus = BABYLON.MeshBuilder.CreateTorus("laneAdd", {});
+    laneTorus.material = new BABYLON.StandardMaterial("Mat", scene);
+    laneTorus.position = new BABYLON.Vector3(-6.5, -2, -7);
+
+    // Materials 
     var dawMaterial = new BABYLON.StandardMaterial("dawMaterial", scene);
     dawMaterial.ambientColor = new BABYLON.Color3(0.9, 0.9, 0.9);
     dawMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
     dawMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+    var laneMaterial = new BABYLON.StandardMaterial("laneMaterial", scene);
+    laneMaterial.ambientColor = new BABYLON.Color3(0.9, 0.9, 0.1);
+    laneMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+    laneMaterial.specularColor = new BABYLON.Color3(0.2, 0.1, 0.79);
 
     var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     daw.position = new BABYLON.Vector3(0, -1, -4);
@@ -157,7 +168,7 @@ var createScene = function () {
             else if (pickResult.pickedMesh.name == "dynamicCylinder") {
                 var name = "dawFile".concat(dawFiles.length.toString());
                 console.log("name is: " + name);
-                var obj = BABYLON.MeshBuilder.CreatePlane(name, {width:2,height:1}, scene);
+                var obj = BABYLON.MeshBuilder.CreatePlane(name, {width:8,height:.8}, scene);
                 obj.position = new BABYLON.Vector3(0, 0, -7);
                 obj.height = 1;
                 obj.width = 2;
@@ -183,6 +194,24 @@ var createScene = function () {
                 }
                 dawFiles.push(obj);
                 console.log(obj);
+            }
+            // I will edit this later... 
+            else if (pickResult.pickedMesh.name == "laneAdd") {
+                console.log("torus clicked and lane added");
+                var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 9.8, height: 1}, scene);
+                lane1.position = new BABYLON.Vector3(1.3, .2, -4.4);
+                lane1.material = laneMaterial;
+                lane1.setEnabled(true);
+                dawFiles.push(lane1);
+                console.log(lane1);
+                if (lane1.isEnabled(false) == true ) {
+                    var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 9.8, height: 1}, scene);
+                    lane2.position = new BABYLON.Vector3(1.3, -1.4, -4.4);
+                    lane2.material = laneMaterial;
+                    lane2.setEnabled(true);
+                    dawFiles.push(lane2);
+                    console.log(lane2);
+                }
             }
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
