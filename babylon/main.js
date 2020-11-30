@@ -1,3 +1,99 @@
+class Dropdown
+{
+	constructor(advancedTexture, height, width)
+	{
+		// Members
+        this.height = height;
+        this.width = width;
+        this.color = "black";
+        this.background = "white";
+
+        this.advancedTexture = advancedTexture;
+
+        // Container
+		this.container = new BABYLON.GUI.Container();
+        this.container.width = this.width;
+        this.container.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.container.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        this.container.isHitTestVisible = false;
+        
+        // Primary button
+        this.button = BABYLON.GUI.Button.CreateSimpleButton(null, "Please Select");
+        this.button.height = this.height;
+        this.button.background = this.background;
+        this.button.color = this.color;
+        this.button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+
+        // Options panel
+        this.options = new BABYLON.GUI.StackPanel();
+        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.options.top = this.height;
+        this.options.isVisible = false;
+        this.options.isVertical = true;
+
+        var _this = this;
+        this.button.onPointerUpObservable.add(function() {
+            _this.options.isVisible = !_this.options.isVisible;
+        });
+
+        //custom hack to make dropdown visible;
+        this.container.onPointerEnterObservable.add(function(){
+            _this.container.zIndex = 555; //some big value            
+        });
+
+        this.container.onPointerOutObservable.add(function(){
+            _this.container.zIndex = 0; //back to original            
+        });
+
+        // add controls
+        this.advancedTexture.addControl(this.container);
+        this.container.addControl(this.button);
+        this.container.addControl(this.options);        
+	}
+
+    get top() {
+        return this.container.top;
+    }
+
+    set top(value) {
+       this.container.top = value;     
+    }
+
+    get left() {
+        return this.container.left;
+    }
+
+    set left(value) {
+       this.container.left = value;     
+    } 
+	
+    addOption(text, callback)
+	{
+        var button = BABYLON.GUI.Button.CreateSimpleButton(text, text);
+        button.height = this.height;
+        button.paddingTop = "-1px";
+        button.background = this.background;
+        button.color = this.color;
+        button.alpha = 1.0;
+        button.onPointerUpObservable.add(() => {
+            this.options.isVisible = false;            
+        });        
+        button.onPointerClickObservable.add(callback); 
+        this.options.addControl(button);
+    }
+
+    clearOptions(){
+        this.options = new BABYLON.GUI.StackPanel();
+        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.options.top = this.height;
+        this.options.isVisible = false;
+        this.options.isVertical = true;
+    }
+	
+};
+
+
+
 var canvas = document.getElementById("renderCanvas");
 
 var uploadAudio = function () {
@@ -62,7 +158,7 @@ var loadMusic = async function (fileName, scene, soundReady, audioBox) {
     });
 }
 
-var displaySamples = async function () {
+var displaySamples = async function (dropdown) {
     return db
         .collection('musics')
         .get()
@@ -75,8 +171,9 @@ var displaySamples = async function () {
                     createdAt: doc.data().createdAt,
                     audioUrl: doc.data().audioUrl
                 });
+                dropdown.addOption(doc.data().name);
             });
-            return JSON.stringify(samples);
+            return samples;
         })
         .catch((err) => {
             console.error(err);
@@ -401,8 +498,86 @@ var createScene = async function () {
         }
     }
 
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+
+    var dropdownA = new Dropdown(advancedTexture, "40px", "250px");
+    dropdownA.button.children[0].text = "My Library";
+    dropdownA.top = "10px";
+    dropdownA.right = "10px";
+    samples = await displaySamples(dropdownA);
+
+    // button = BABYLON.GUI.Button.CreateSimpleButton(null, "Reload");
+    // button.width = "48px";
+    // button.height = "86px";
+    // button.thickness = 0;
+    // button.verticalAlignment = 0;
+    // button.horizontalAlignment = 1;
+    // button.top = "60px";
+    // advancedTexture.addControl(button);
+
+    // const playerUI = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    // samplePanel = createSamplePanel(playerUI);
+    // playerUI.idealHeight = 720; //fit our fullscreen ui to this height
+    // //create a simple button
+    // const pauseBtn = BABYLON.GUI.Button.CreateSimpleButton("start", "SAMPLES");
+    // pauseBtn.width = "48px";
+    // pauseBtn.height = "86px";
+    // pauseBtn.thickness = 0;
+    // pauseBtn.verticalAlignment = 0;
+    // pauseBtn.horizontalAlignment = 1;
+    // pauseBtn.top = "-16px";
+    // playerUI.addControl(pauseBtn);
+    // pauseBtn.zIndex = 10;
+    // this.pauseBtn = pauseBtn;
+    // //this handles interactions with the start button attached to the scene
+    // pauseBtn.onPointerClickObservable.add(async () => {
+    //     var samples = await displaySamples();
+    //     console.log(samples)
+    //     samplePanel.isVisible = true;
+    //     samplePanel.textBlock
+    //     playerUI.addControl(samplePanel);
+    // });
+
     return scene;
 };
+
+createSamplePanel = (playerUI) => {
+    const samplePanel = new BABYLON.GUI.Rectangle();
+    samplePanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    samplePanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+    samplePanel.height = 0.8;
+    samplePanel.width = 0.5;
+    samplePanel.thickness = 1;
+    samplePanel.background = "blue";
+    samplePanel.cornerRadius = 20;
+    samplePanel.isVisible = false;
+
+    //stack panel for the buttons
+    const stackPanel = new BABYLON.GUI.StackPanel();
+    stackPanel.width = .83;
+    samplePanel.addControl(stackPanel);
+
+    const resumeBtn = BABYLON.GUI.Button.CreateSimpleButton("resume", "RESUME");
+    resumeBtn.width = 0.18;
+    resumeBtn.height = "44px";
+    resumeBtn.color = "white";
+    // resumeBtn.fontFamily = "Viga";
+    resumeBtn.paddingBottom = "14px";
+    resumeBtn.cornerRadius = 14;
+    resumeBtn.fontSize = "12px";
+    resumeBtn.textBlock.resizeToFit = true;
+    resumeBtn.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+    resumeBtn.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+    stackPanel.addControl(resumeBtn);
+
+    resumeBtn.onPointerDownObservable.add(() => {
+        samplePanel.isVisible = false;
+        playerUI.removeControl(samplePanel);
+    });
+    
+    
+    return samplePanel;
+}
 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
 
