@@ -16,15 +16,76 @@ var uploadAudio = function () {
             console.log(error.code);
         }, function complete() {
             // Upload completed successfully, now we can get the download URL
-            task.snapshot.ref.getDownloadURL().then(function (url) {
-                downloadURL = url;
-                console.log('File available at', downloadURL);
-            });
+            task.snapshot.ref.getDownloadURL()
+                .then(function (url) {
+                    downloadURL = url;
+
+                    const newMusic = {
+                        userHandle: "public",
+                        name: file.name,
+                        createdAt: new Date().toISOString(),
+                        audioUrl: downloadURL
+                    };
+
+                    db.collection('musics')
+                        .add(newMusic)
+                        .then(doc => { })
+                        .catch(err => {
+                            res.status(500).json({ error: `something went wrong` });
+                            console.error(err);
+                        })
+
+                    console.log('File available at', downloadURL);
+                });
         });
     });  
 }
 
-var createScene = function () {
+var loadMusic = async function (fileName, scene, soundReady, audioBox) {
+    const storageRef = firebase.storage().ref();
+    storageRef.child(fileName).getDownloadURL().then(url => {
+        return axios({
+            method: 'get',
+            url: url,
+            responseType: 'blob'
+        })
+    }).then(blob => {
+        return blob.data.arrayBuffer();
+    }).then(buffer => {
+        music = new BABYLON.Sound("FromArrayBuffer", buffer, scene, soundReady, { 
+            loop: true,
+            autoplay: false
+        });
+        music.attachToMesh(audioBox);
+    }).catch(function (error) {
+        console.error(error);
+    });
+}
+
+var displaySamples = async function () {
+    return db
+        .collection('musics')
+        .get()
+        .then((data) => {
+            let samples = [];
+            data.forEach((doc) => {
+                samples.push({
+                    userHandle: doc.data().userHandle,
+                    name: doc.data().name,
+                    createdAt: doc.data().createdAt,
+                    audioUrl: doc.data().audioUrl
+                });
+            });
+            return JSON.stringify(samples);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        });
+}
+
+
+var createScene = async function () {
     var scene = new BABYLON.Scene(engine);
 
     // Lights
@@ -131,16 +192,7 @@ var createScene = function () {
     var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
     vrHelper.enableTeleportation({floorMeshes: [box]});
 
-    // Audio Creation
-    var isMusicPlaying = false;
-    var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
-    // var musicUrl = "https://firebasestorage.googleapis.com/v0/b/orchid-87a13.appspot.com/o/example.mp3?alt=media&token=bb2fc8c7-9c71-49b9-8dd8-5c5b5125ea41";
-    // var music = new BABYLON.Sound("Violons", "https://www.babylonjs-playground.com/sounds/violons11.wav", scene, soundReady, { loop: true });
-    // var music = new BABYLON.Sound("Violons", musicUrl, scene, soundReady, { loop: true });
-    // var music = new Audio(musicUrl);
-
-    console.log("can print things on here");
-
+    var isMusicPlaying = true;
     function soundReady() {
         if (isMusicPlaying) {
             console.log("Sound is being paused");
@@ -163,6 +215,7 @@ var createScene = function () {
     var audioBox = BABYLON.Mesh.CreateBox("cube", 2, scene);
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(0, -3, -7);
+
     music.attachToMesh(audioBox);
 
     var daw = BABYLON.Mesh.CreatePlane("daw", 2, scene, true);
@@ -190,23 +243,27 @@ var createScene = function () {
         }
     }
 
-
     return scene;
-}
+};
 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
-var scene = createScene();
 
-engine.runRenderLoop(function () {
-    if (scene) {
-        scene.render();
-    }
-});
+(async () => {
 
-// Resize
-window.addEventListener("resize", function () {
-    engine.resize();
-});
+    var scene = await createScene();
 
-// test upload 
-uploadAudio();
+    engine.runRenderLoop(function () {
+        if (scene) {
+            scene.render();
+        }
+    });
+
+    // Resize
+    window.addEventListener("resize", function () {
+        engine.resize();
+    });
+
+    // test upload 
+    uploadAudio();
+
+})();
