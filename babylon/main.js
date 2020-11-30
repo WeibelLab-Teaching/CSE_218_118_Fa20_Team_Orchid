@@ -564,8 +564,6 @@ var createScene = async function () {
         }
     }
 
-<<<<<<< HEAD
-=======
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
     var dropdownA = new Dropdown(advancedTexture, "40px", "250px");
@@ -605,7 +603,6 @@ var createScene = async function () {
     //     samplePanel.textBlock
     //     playerUI.addControl(samplePanel);
     // });
->>>>>>> 7fa06b5cb1dd36b194f4d749c304393b55fd1183
 
     return scene;
 };
