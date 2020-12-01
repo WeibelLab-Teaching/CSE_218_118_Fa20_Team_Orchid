@@ -208,11 +208,11 @@ var createScene = async function () {
     var music4 = new BABYLON.Sound("rolling_S2", "rolling_S2.mp3", scene, soundReady, {loop: false});
     var music5 = new BABYLON.Sound("rolling_S3", "rolling_S3.mp3", scene, soundReady, {loop: false});
 
-    music1.setVolume(0.5)
-    music2.setVolume(0.5)
-    music3.setVolume(0.5)
-    music4.setVolume(0.5)
-    music5.setVolume(0.5)
+    music1.setVolume(0.5);
+    music2.setVolume(0.5);
+    music3.setVolume(0.5);
+    music4.setVolume(0.5);
+    music5.setVolume(0.5);
 
     var soundsReady = 0;
 
@@ -252,11 +252,6 @@ var createScene = async function () {
     audioBox.material = new BABYLON.StandardMaterial("Mat", scene);
     audioBox.position = new BABYLON.Vector3(-6.5, -3, -7);
     audioBox.isPickable = true;
-    /*music1.attachToMesh(audioBox); 
-    music2.attachToMesh(audioBox);
-    music3.attachToMesh(audioBox);
-    music4.attachToMesh(audioBox);
-    music5.attachToMesh(audioBox);*/
 
     var desk;
     meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "computer_desk.glb", scene, function (newMeshes) {
@@ -274,11 +269,13 @@ var createScene = async function () {
     dynamicCylinder.material = new BABYLON.StandardMaterial("Mat", scene);
     dynamicCylinder.position = new BABYLON.Vector3(-6.5, -0, -7);
     dynamicCylinder.isPickable = true;
+    dynamicCylinder.checkCollisions = true;
 
     // Sphere to pick up/place down
     var pickupSphere = BABYLON.Mesh.CreateSphere("pickupSphere", 32, 1, scene);
     pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
     pickupSphere.isPickable = true;
+    pickupSphere.checkCollisions = true;
 
     // Donut shape on top of audio box 
     var laneTorus = BABYLON.MeshBuilder.CreateTorus("laneAdd", {});
@@ -299,6 +296,7 @@ var createScene = async function () {
     var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     daw.position = new BABYLON.Vector3(0, -1, -4);
     daw.material = dawMaterial;
+    daw.checkCollisions = true;
 
     // Tab to represent initial project (more tabs in future)
     var dawtab = BABYLON.MeshBuilder.CreatePlane("tab", {width: 3, height: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
@@ -311,8 +309,29 @@ var createScene = async function () {
     waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
     waveformMaterial.backFaceCulling = false;
 
+    // KEEP THIS PLEASE still testing
+    /*scene.registerBeforeRender(function () {
+        if (typeof dawFiles[0] !== 'undefined') {
+            console.log("please work");
+            dawFiles[0].onCollideObservable.add(() => {
+                dawFiles[0].setParent(lanes[0]);
+                console.log("this works!")
+            });
+            if(dawFiles[0].intersectsMesh(laneBoxes[0])) {
+                console.log("this works");
+                dawFiles[0].setParent(lanes[0]);
+                dawFiles[0].rotation = dawFiles[0].parent.rotation;
+                dawFiles[0].position.y = dawFiles[0].parent.position.y;
+                dawFiles[0].position.x = dawFiles[0].parent.position.x;
+            }
+        }
+    });*/
+
     var dawFiles = [];
+    var lanes = [];
+    var laneBoxes = [];
     scene.onPointerDown = function (evt, pickResult) {
+
         if (pickResult.hit) {
             if (pickResult.pickedMesh.name == "crate") {
                 console.log("room clicked");
@@ -331,6 +350,7 @@ var createScene = async function () {
                 obj.position = new BABYLON.Vector3(0, 0, -7);
                 obj.height = 1;
                 obj.width = 2;
+                obj.checkCollisions = true;
                 obj.setEnabled(true);
                 console.log("height of obj is " + obj.height + " and width is " + obj.width);
                 obj.material = waveformMaterial;
@@ -361,21 +381,43 @@ var createScene = async function () {
                 lane1.position = new BABYLON.Vector3(1.3, .2, -4.4);
                 lane1.material = laneMaterial;
                 lane1.setEnabled(true);
-                dawFiles.push(lane1);
+                lanes.push(lane1);
                 console.log(lane1);
+                var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
+                lane1box.position = new BABYLON.Vector3(1.3, .2, -5);
+                lane1box.isVisible = false;
+                laneBoxes.push(lane1box);
+
+
                 if (lane1.isEnabled(false) == true ) {
                     var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 9.8, height: 1}, scene);
                     lane2.position = new BABYLON.Vector3(1.3, -1.4, -4.4);
                     lane2.material = laneMaterial;
                     lane2.setEnabled(true);
-                    dawFiles.push(lane2);
+                    lanes.push(lane2);
                     console.log(lane2);
+                    var lane2box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
+                    lane2box.position = new BABYLON.Vector3(1.3, -1.4, -5);
+                    lane2box.isVisible = false;
+                    laneBoxes.push(lane2box);
                 }
             }
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
                 if (pickResult.pickedMesh.parent == camera) {
                     pickResult.pickedMesh.setParent(null);
+                    for( var laneBoxesI = 0; laneBoxesI < laneBoxes.length; laneBoxesI++) {
+                        console.log("goes into this section at least for ", laneBoxesI);
+                        if(pickResult.pickedMesh.intersectsMesh(laneBoxes[laneBoxesI])) {
+                            console.log("parent is set to ", laneBoxes[laneBoxesI]);
+                            pickResult.pickedMesh.setParent(lanes[laneBoxesI]);
+                            pickResult.pickedMesh.rotation = pickResult.pickedMesh.parent.rotation;
+                            pickResult.pickedMesh.position.y = 0;
+                            pickResult.pickedMesh.position.z = -0.1;
+                        }
+                    }
+                    
+                    
                 } else {
                     pickResult.pickedMesh.setParent(camera);
                 }
