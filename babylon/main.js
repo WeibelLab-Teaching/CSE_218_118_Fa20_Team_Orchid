@@ -185,6 +185,11 @@ var displaySamples = async function (dropdown) {
 var createScene = async function () {
     var scene = new BABYLON.Scene(engine);
 
+    var dawFiles = [];
+    var lanes = [];
+    var laneBoxes = [];
+    var music = [];
+
     // Lights
     var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-10, -5, 10), scene);
     var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
@@ -336,6 +341,29 @@ var createScene = async function () {
             }
         }
     }
+
+    /*function dawFilesPlay() {
+        if (isMusicPlaying) {
+            console.log("Sound is being paused");
+
+
+            music1.pause();
+            music2.pause();
+            music3.pause();
+            music4.pause();
+            music5.pause();
+            isMusicPlaying = false;
+        }
+        else {
+            console.log("Sound is being played");
+            music1.play();
+            music2.play();
+            music3.play();
+            music4.play();
+            music5.play();
+            isMusicPlaying = true;
+        }
+    }*/
     // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
     window.addEventListener("keydown", function (evt) {
         // Press space key to toggle music
@@ -401,6 +429,33 @@ var createScene = async function () {
     dawtab.position = new BABYLON.Vector3(-5.4, .5, -4);
     dawtab.material = dawMaterial;
 
+    // lane 1 in the daw
+    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 9.8, height: 1}, scene);
+    lane1.position = new BABYLON.Vector3(1.3, .2, -4.4);
+    lane1.material = new BABYLON.StandardMaterial("Mat", scene);;
+    //lane1.setEnabled(true);
+    lanes.push(lane1);
+    console.log(lane1);
+    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
+    lane1box.position = new BABYLON.Vector3(1.3, .2, -5);
+    lane1box.isVisible = false;
+    laneBoxes.push(lane1box);
+
+    // lane 2 in the daw
+    var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 9.8, height: 1}, scene);
+    lane2.position = new BABYLON.Vector3(1.3, -1.4, -4.4);
+    lane2.material = new BABYLON.StandardMaterial("Mat", scene);;
+    //lane2.setEnabled(true);
+    lanes.push(lane2);
+    console.log(lane2);
+    var lane2box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
+    lane2box.position = new BABYLON.Vector3(1.3, -1.4, -5);
+    lane2box.isVisible = false;
+    laneBoxes.push(lane2box);
+    
+    //lane1Play.setEnabled(true);
+    //lane2Play.setEnabled(true);
+
      // Play/Pause variables 
      var mainPlay = BABYLON.MeshBuilder.CreateDisc("main play", {tessellation: 3, radius:.3}, scene);
      mainPlay.position = new BABYLON.Vector3(0, -2.8, -4.4);
@@ -454,17 +509,10 @@ var createScene = async function () {
             }
         }
     });*/
-
-    var dawFiles = [];
-    var lanes = [];
-    var laneBoxes = [];
     scene.onPointerDown = function (evt, pickResult) {
 
         if (pickResult.hit) {
-            if (pickResult.pickedMesh.name == "crate") {
-                console.log("room clicked");
-            }
-            else if (pickResult.pickedMesh.name == "pickupSphere") {
+            if (pickResult.pickedMesh.name == "pickupSphere") {
                 if (pickupSphere.parent == camera) {
                     pickupSphere.setParent(null);
                 } else {
@@ -482,6 +530,7 @@ var createScene = async function () {
                 obj.setEnabled(true);
                 console.log("height of obj is " + obj.height + " and width is " + obj.width);
                 obj.material = waveformMaterial;
+                dawFiles.push(obj);
                 switch(dawFiles.length) {
                     case 1:
                         music1.attachToMesh(obj);
@@ -499,11 +548,10 @@ var createScene = async function () {
                         music5.attachToMesh(obj);
                         break;
                 }
-                dawFiles.push(obj);
                 console.log(obj);
             }
             // Lanes... WIP 
-            else if (pickResult.pickedMesh.name == "laneAdd") {
+            /*else if (pickResult.pickedMesh.name == "laneAdd") {
                 console.log("torus clicked and lane added");
                 var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 9.8, height: 1}, scene);
                 lane1.position = new BABYLON.Vector3(1.3, .2, -4.4);
@@ -529,13 +577,12 @@ var createScene = async function () {
                 
                 lane1Play.setEnabled(true);
                 lane2Play.setEnabled(true);
-            }
+            }*/
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
                 if (pickResult.pickedMesh.parent == camera) {
                     pickResult.pickedMesh.setParent(null);
                     for( var laneBoxesI = 0; laneBoxesI < laneBoxes.length; laneBoxesI++) {
-                        console.log("goes into this section at least for ", laneBoxesI);
                         if(pickResult.pickedMesh.intersectsMesh(laneBoxes[laneBoxesI])) {
                             console.log("parent is set to ", laneBoxes[laneBoxesI]);
                             pickResult.pickedMesh.setParent(lanes[laneBoxesI]);
@@ -553,11 +600,13 @@ var createScene = async function () {
             // Main Play/Pause on DAW 
             else if (pickResult.pickedMesh.name == "main play") {
                 console.log("main play has been clicked");
+                soundReady();
                 mainPlay.setEnabled(false);
                 mainPause.setEnabled(true);
             }
             else if (pickResult.pickedMesh.name == "main pause") {
                 console.log("main pause has been clicked");
+                soundReady();
                 mainPause.setEnabled(false);
                 mainPlay.setEnabled(true);
             }
