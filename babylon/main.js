@@ -506,67 +506,45 @@ var createScene = async function () {
     dawtab.position = new BABYLON.Vector3(-5.4, 1.5, -10.5);
     dawtab.material = dawMaterial;
 
-    // lane 1 in the daw
-    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 9.8, height: 1}, scene);
-    lane1.position = new BABYLON.Vector3(1.3, .2, -4.4);
-    lane1.material = new BABYLON.StandardMaterial("Mat", scene);;
-    //lane1.setEnabled(true);
-    lanes.push(lane1);
-    console.log(lane1);
-    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
-    lane1box.position = new BABYLON.Vector3(1.3, .2, -5);
-    lane1box.isVisible = false;
-    laneBoxes.push(lane1box);
-
-    // lane 2 in the daw
-    var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 9.8, height: 1}, scene);
-    lane2.position = new BABYLON.Vector3(1.3, -1.4, -4.4);
-    lane2.material = new BABYLON.StandardMaterial("Mat", scene);;
-    //lane2.setEnabled(true);
-    lanes.push(lane2);
-    console.log(lane2);
-    var lane2box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 9.8, height: 1, depth: 2}, scene);
-    lane2box.position = new BABYLON.Vector3(1.3, -1.4, -5);
-    lane2box.isVisible = false;
-    laneBoxes.push(lane2box);
-    
-    //lane1Play.setEnabled(true);
-    //lane2Play.setEnabled(true);
+    var laneMaterial = new BABYLON.StandardMaterial("laneMaterial", scene);
+    laneMaterial.ambientColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    laneMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    laneMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
      // Play/Pause variables 
      var mainPlay = BABYLON.MeshBuilder.CreateDisc("main play", {tessellation: 3, radius:.3}, scene);
      //mainPlay.position = new BABYLON.Vector3(0, -2.8, -4.4);
      mainPlay.position = new BABYLON.Vector3(0, -1.8, -11);
-     mainPlay.material = new BABYLON.StandardMaterial("Mat", scene);
+     mainPlay.material = laneMaterial;
  
      var mainPause = BABYLON.MeshBuilder.CreateDisc("main pause", {tessellation: 8, radius:.3}, scene);
      //mainPause.position = new BABYLON.Vector3(0, -2.8, -4.4);
      mainPause.position = new BABYLON.Vector3(0, -1.8, -11);
-     mainPause.material = new BABYLON.StandardMaterial("Mat", scene);
+     mainPause.material = laneMaterial;
      mainPause.setEnabled(false);
  
      var lane1Play = BABYLON.MeshBuilder.CreateDisc("lane1 play", {tessellation: 3, radius:.2}, scene);
      //lane1Play.position = new BABYLON.Vector3(-4.2, .2, -4.4);
-     lane1Play.position = new BABYLON.Vector3(-4.2, 1.2, -11);
-     lane1Play.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane1Play.position = new BABYLON.Vector3(-6, 1.2, -11);
+     lane1Play.material = laneMaterial;
      lane1Play.setEnabled(false);
  
      var lane1Pause = BABYLON.MeshBuilder.CreateDisc("lane1 pause", {tessellation: 8, radius:.3}, scene);
      //lane1Pause.position = new BABYLON.Vector3(-4.2, .2, -4.4);
-     lane1Pause.position = new BABYLON.Vector3(-4.2, 1.2, -11);
-     lane1Pause.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane1Pause.position = new BABYLON.Vector3(-6, 1.2, -11);
+     lane1Pause.material = laneMaterial;
      lane1Pause.setEnabled(false);
  
      var lane2Play = BABYLON.MeshBuilder.CreateDisc("lane2 play", {tessellation: 3, radius:.2}, scene);
      //lane2Play.position = new BABYLON.Vector3(-4.2, -1.4, -4.4);
-     lane2Play.position = new BABYLON.Vector3(-4.2, -0.4, -11);
-     lane2Play.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane2Play.position = new BABYLON.Vector3(-6, -0.4, -11);
+     lane2Play.material = laneMaterial;
      lane2Play.setEnabled(false);
  
      var lane2Pause = BABYLON.MeshBuilder.CreateDisc("lane2 pause", {tessellation: 8, radius:.3}, scene);
      //lane2Pause.position = new BABYLON.Vector3(-4.2, -1.4, -4.4);
-     lane2Pause.position = new BABYLON.Vector3(-4.2, -0.4, -11);
-     lane2Pause.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane2Pause.position = new BABYLON.Vector3(-6, -0.4, -11);
+     lane2Pause.material = laneMaterial;
      lane2Pause.setEnabled(false);
 
     // material for dynamic waveform objects
@@ -574,6 +552,31 @@ var createScene = async function () {
     waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", scene);
     waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
     waveformMaterial.backFaceCulling = false;
+
+    // lane 1 in the daw
+    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 11.25, height: 1}, scene);
+    lane1.position = new BABYLON.Vector3(0.25, 1.2, -11);
+    lane1.material = laneMaterial;
+    lane1.setEnabled(true);
+    lanes.push(lane1);
+    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11.25, height: 1, depth: 2}, scene);
+    lane1box.position = new BABYLON.Vector3(0.25, 1.2, -11.5);
+    lane1box.isVisible = false;
+    laneBoxes.push(lane1box);
+
+    // lane 2 in the daw
+    var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 11.25, height: 1}, scene);
+    lane2.position = new BABYLON.Vector3(0.25, -0.4, -11);
+    lane2.material = laneMaterial;
+    lane2.setEnabled(true);
+    lanes.push(lane2);
+    var lane2box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11.25, height: 1, depth: 2}, scene);
+    lane2box.position = new BABYLON.Vector3(0.25, -0.4, -11.5);
+    lane2box.isVisible = false;
+    laneBoxes.push(lane2box);
+    
+    lane1Play.setEnabled(true);
+    lane2Play.setEnabled(true);
 
     // KEEP THIS PLEASE still testing
     /*scene.registerBeforeRender(function () {
