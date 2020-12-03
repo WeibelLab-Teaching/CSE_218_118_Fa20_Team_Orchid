@@ -1,189 +1,12 @@
-class Dropdown
-{
-	constructor(advancedTexture, height, width)
-	{
-		// Members
-        this.height = height;
-        this.width = width;
-        this.color = "black";
-        this.background = "white";
-
-        this.advancedTexture = advancedTexture;
-
-        // Container
-		this.container = new BABYLON.GUI.Container();
-        this.container.width = this.width;
-        this.container.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        this.container.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-        this.container.isHitTestVisible = false;
-        
-        // Primary button
-        this.button = BABYLON.GUI.Button.CreateSimpleButton(null, "Please Select");
-        this.button.height = this.height;
-        this.button.background = this.background;
-        this.button.color = this.color;
-        this.button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-
-        // Options panel
-        this.options = new BABYLON.GUI.StackPanel();
-        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        this.options.top = this.height;
-        this.options.isVisible = false;
-        this.options.isVertical = true;
-
-        var _this = this;
-        this.button.onPointerUpObservable.add(function() {
-            _this.options.isVisible = !_this.options.isVisible;
-        });
-
-        //custom hack to make dropdown visible;
-        this.container.onPointerEnterObservable.add(function(){
-            _this.container.zIndex = 555; //some big value            
-        });
-
-        this.container.onPointerOutObservable.add(function(){
-            _this.container.zIndex = 0; //back to original            
-        });
-
-        // add controls
-        this.advancedTexture.addControl(this.container);
-        this.container.addControl(this.button);
-        this.container.addControl(this.options);        
-	}
-
-    get top() {
-        return this.container.top;
-    }
-
-    set top(value) {
-       this.container.top = value;     
-    }
-
-    get left() {
-        return this.container.left;
-    }
-
-    set left(value) {
-       this.container.left = value;     
-    } 
-	
-    addOption(text, callback)
-	{
-        var button = BABYLON.GUI.Button.CreateSimpleButton(text, text);
-        button.height = this.height;
-        button.paddingTop = "-1px";
-        button.background = this.background;
-        button.color = this.color;
-        button.alpha = 1.0;
-        button.onPointerUpObservable.add(() => {
-            this.options.isVisible = false;            
-        });        
-        button.onPointerClickObservable.add(callback); 
-        this.options.addControl(button);
-    }
-
-    clearOptions(){
-        this.options = new BABYLON.GUI.StackPanel();
-        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        this.options.top = this.height;
-        this.options.isVisible = false;
-        this.options.isVertical = true;
-    }
-	
-};
-
-
-
 var canvas = document.getElementById("renderCanvas");
-
-var uploadAudio = function () {
-    const storageRef = firebase.storage().ref();
-
-    var uploader = document.getElementById('uploader');
-    var fileButton = document.getElementById('fileButton');
-    fileButton.addEventListener('change', function (e) {
-        var file = e.target.files[0];
-        var storageRef = firebase.storage().ref(file.name);
-        var task = storageRef.put(file);
-        task.on('state_changed', function progress(snapshot) {
-            var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            uploader.value = percentage;
-        }, function error(err) {
-            console.log(error.code);
-        }, function complete() {
-            // Upload completed successfully, now we can get the download URL
-            task.snapshot.ref.getDownloadURL()
-                .then(function (url) {
-                    downloadURL = url;
-
-                    const newMusic = {
-                        userHandle: "public",
-                        name: file.name,
-                        createdAt: new Date().toISOString(),
-                        audioUrl: downloadURL
-                    };
-
-                    db.collection('musics')
-                        .add(newMusic)
-                        .then(doc => { })
-                        .catch(err => {
-                            res.status(500).json({ error: `something went wrong` });
-                            console.error(err);
-                        })
-
-                    console.log('File available at', downloadURL);
-                });
-        });
-    });  
-}
-
-var loadMusic = async function (fileName, scene, soundReady, audioBox) {
-    const storageRef = firebase.storage().ref();
-    storageRef.child(fileName).getDownloadURL().then(url => {
-        return axios({
-            method: 'get',
-            url: url,
-            responseType: 'blob'
-        })
-    }).then(blob => {
-        return blob.data.arrayBuffer();
-    }).then(buffer => {
-        music = new BABYLON.Sound("FromArrayBuffer", buffer, scene, soundReady, { 
-            loop: true,
-            autoplay: false
-        });
-        music.attachToMesh(audioBox);
-    }).catch(function (error) {
-        console.error(error);
-    });
-}
-
-var displaySamples = async function (dropdown) {
-    return db
-        .collection('musics')
-        .get()
-        .then((data) => {
-            let samples = [];
-            data.forEach((doc) => {
-                samples.push({
-                    userHandle: doc.data().userHandle,
-                    name: doc.data().name,
-                    createdAt: doc.data().createdAt,
-                    audioUrl: doc.data().audioUrl
-                });
-                dropdown.addOption(doc.data().name);
-            });
-            return samples;
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).json({ error: err.code });
-        });
-}
-
 
 var createScene = async function () {
     var scene = new BABYLON.Scene(engine);
+
+    var dawFiles = [];
+    var lanes = [];
+    var laneBoxes = [];
+    var music = [];
 
     // Lights
     var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-10, -5, 10), scene);
@@ -326,6 +149,29 @@ var createScene = async function () {
             }
         }
     }
+
+    /*function dawFilesPlay() {
+        if (isMusicPlaying) {
+            console.log("Sound is being paused");
+
+
+            music1.pause();
+            music2.pause();
+            music3.pause();
+            music4.pause();
+            music5.pause();
+            isMusicPlaying = false;
+        }
+        else {
+            console.log("Sound is being played");
+            music1.play();
+            music2.play();
+            music3.play();
+            music4.play();
+            music5.play();
+            isMusicPlaying = true;
+        }
+    }*/
     // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
     window.addEventListener("keydown", function (evt) {
         // Press space key to toggle music
@@ -537,40 +383,45 @@ var createScene = async function () {
     dawtab.position = new BABYLON.Vector3(-5.4, 1.5, -10.5);
     dawtab.material = dawMaterial;
 
+    var laneMaterial = new BABYLON.StandardMaterial("laneMaterial", scene);
+    laneMaterial.ambientColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    laneMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+    laneMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
      // Play/Pause variables 
      var mainPlay = BABYLON.MeshBuilder.CreateDisc("main play", {tessellation: 3, radius:.3}, scene);
      //mainPlay.position = new BABYLON.Vector3(0, -2.8, -4.4);
      mainPlay.position = new BABYLON.Vector3(0, -1.8, -11);
-     mainPlay.material = new BABYLON.StandardMaterial("Mat", scene);
+     mainPlay.material = laneMaterial;
  
      var mainPause = BABYLON.MeshBuilder.CreateDisc("main pause", {tessellation: 8, radius:.3}, scene);
      //mainPause.position = new BABYLON.Vector3(0, -2.8, -4.4);
      mainPause.position = new BABYLON.Vector3(0, -1.8, -11);
-     mainPause.material = new BABYLON.StandardMaterial("Mat", scene);
+     mainPause.material = laneMaterial;
      mainPause.setEnabled(false);
  
      var lane1Play = BABYLON.MeshBuilder.CreateDisc("lane1 play", {tessellation: 3, radius:.2}, scene);
      //lane1Play.position = new BABYLON.Vector3(-4.2, .2, -4.4);
-     lane1Play.position = new BABYLON.Vector3(-4.2, 1.2, -11);
-     lane1Play.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane1Play.position = new BABYLON.Vector3(-6, 1.2, -11);
+     lane1Play.material = laneMaterial;
      lane1Play.setEnabled(false);
  
      var lane1Pause = BABYLON.MeshBuilder.CreateDisc("lane1 pause", {tessellation: 8, radius:.3}, scene);
      //lane1Pause.position = new BABYLON.Vector3(-4.2, .2, -4.4);
-     lane1Pause.position = new BABYLON.Vector3(-4.2, 1.2, -11);
-     lane1Pause.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane1Pause.position = new BABYLON.Vector3(-6, 1.2, -11);
+     lane1Pause.material = laneMaterial;
      lane1Pause.setEnabled(false);
  
      var lane2Play = BABYLON.MeshBuilder.CreateDisc("lane2 play", {tessellation: 3, radius:.2}, scene);
      //lane2Play.position = new BABYLON.Vector3(-4.2, -1.4, -4.4);
-     lane2Play.position = new BABYLON.Vector3(-4.2, -0.4, -11);
-     lane2Play.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane2Play.position = new BABYLON.Vector3(-6, -0.4, -11);
+     lane2Play.material = laneMaterial;
      lane2Play.setEnabled(false);
  
      var lane2Pause = BABYLON.MeshBuilder.CreateDisc("lane2 pause", {tessellation: 8, radius:.3}, scene);
      //lane2Pause.position = new BABYLON.Vector3(-4.2, -1.4, -4.4);
-     lane2Pause.position = new BABYLON.Vector3(-4.2, -0.4, -11);
-     lane2Pause.material = new BABYLON.StandardMaterial("Mat", scene);
+     lane2Pause.position = new BABYLON.Vector3(-6, -0.4, -11);
+     lane2Pause.material = laneMaterial;
      lane2Pause.setEnabled(false);
 
     // material for dynamic waveform objects
@@ -578,6 +429,31 @@ var createScene = async function () {
     waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", scene);
     waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
     waveformMaterial.backFaceCulling = false;
+
+    // lane 1 in the daw
+    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 11.25, height: 1}, scene);
+    lane1.position = new BABYLON.Vector3(0.25, 1.2, -11);
+    lane1.material = laneMaterial;
+    lane1.setEnabled(true);
+    lanes.push(lane1);
+    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11.25, height: 1, depth: 2}, scene);
+    lane1box.position = new BABYLON.Vector3(0.25, 1.2, -11.5);
+    lane1box.isVisible = false;
+    laneBoxes.push(lane1box);
+
+    // lane 2 in the daw
+    var lane2 = BABYLON.MeshBuilder.CreatePlane("lane2", {width: 11.25, height: 1}, scene);
+    lane2.position = new BABYLON.Vector3(0.25, -0.4, -11);
+    lane2.material = laneMaterial;
+    lane2.setEnabled(true);
+    lanes.push(lane2);
+    var lane2box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11.25, height: 1, depth: 2}, scene);
+    lane2box.position = new BABYLON.Vector3(0.25, -0.4, -11.5);
+    lane2box.isVisible = false;
+    laneBoxes.push(lane2box);
+    
+    lane1Play.setEnabled(true);
+    lane2Play.setEnabled(true);
 
     // KEEP THIS PLEASE still testing
     /*scene.registerBeforeRender(function () {
@@ -596,17 +472,10 @@ var createScene = async function () {
             }
         }
     });*/
-
-    var dawFiles = [];
-    var lanes = [];
-    var laneBoxes = [];
     scene.onPointerDown = function (evt, pickResult) {
 
         if (pickResult.hit) {
-            if (pickResult.pickedMesh.name == "crate") {
-                console.log("room clicked");
-            }
-            else if (pickResult.pickedMesh.name == "pickupSphere") {
+            if (pickResult.pickedMesh.name == "pickupSphere") {
                 if (pickupSphere.parent == camera) {
                     pickupSphere.setParent(null);
                 } else {
@@ -624,6 +493,7 @@ var createScene = async function () {
                 obj.setEnabled(true);
                 console.log("height of obj is " + obj.height + " and width is " + obj.width);
                 obj.material = waveformMaterial;
+                dawFiles.push(obj);
                 switch(dawFiles.length) {
                     case 1:
                         music1.attachToMesh(obj);
@@ -641,11 +511,10 @@ var createScene = async function () {
                         music5.attachToMesh(obj);
                         break;
                 }
-                dawFiles.push(obj);
                 console.log(obj);
             }
             // Lanes... WIP 
-            else if (pickResult.pickedMesh.name == "laneAdd") {
+            /*else if (pickResult.pickedMesh.name == "laneAdd") {
                 console.log("torus clicked and lane added");
                 var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 9.8, height: 1}, scene);
                 lane1.position = new BABYLON.Vector3(1.3, 1.2, -11);
@@ -671,13 +540,12 @@ var createScene = async function () {
                 
                 lane1Play.setEnabled(true);
                 lane2Play.setEnabled(true);
-            }
+            }*/
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
                 if (pickResult.pickedMesh.parent == camera) {
                     pickResult.pickedMesh.setParent(null);
                     for( var laneBoxesI = 0; laneBoxesI < laneBoxes.length; laneBoxesI++) {
-                        console.log("goes into this section at least for ", laneBoxesI);
                         if(pickResult.pickedMesh.intersectsMesh(laneBoxes[laneBoxesI])) {
                             console.log("parent is set to ", laneBoxes[laneBoxesI]);
                             pickResult.pickedMesh.setParent(lanes[laneBoxesI]);
@@ -695,11 +563,13 @@ var createScene = async function () {
             // Main Play/Pause on DAW 
             else if (pickResult.pickedMesh.name == "main play") {
                 console.log("main play has been clicked");
+                soundReady();
                 mainPlay.setEnabled(false);
                 mainPause.setEnabled(true);
             }
             else if (pickResult.pickedMesh.name == "main pause") {
                 console.log("main pause has been clicked");
+                soundReady();
                 mainPause.setEnabled(false);
                 mainPlay.setEnabled(true);
             }
