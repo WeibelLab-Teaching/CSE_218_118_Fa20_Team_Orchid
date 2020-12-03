@@ -424,6 +424,37 @@ var createScene = async function () {
      lane2Pause.material = laneMaterial;
      lane2Pause.setEnabled(false);
 
+     // volume up/down per each lane 
+     var vertical = BABYLON.MeshBuilder.CreatePlane(name, {width:.09,height:.25}, scene);
+     vertical.position = new BABYLON.Vector3(0, 0, 0);
+     vertical.material = new BABYLON.StandardMaterial("Mat", scene);
+ 
+     var hori = BABYLON.MeshBuilder.CreatePlane(name, {width:.25,height:.09}, scene);
+     hori.position = new BABYLON.Vector3(0, 0, 0);
+     hori.material = new BABYLON.StandardMaterial("Mat", scene);
+ 
+     var plus1 = BABYLON.Mesh.MergeMeshes([vertical, hori]);
+     plus1.position = new BABYLON.Vector3(-5.8, .7, -11);
+
+     var vertical2 = BABYLON.MeshBuilder.CreatePlane(name, {width:.09,height:.25}, scene);
+     vertical2.position = new BABYLON.Vector3(0, 0, 0);
+     vertical2.material = new BABYLON.StandardMaterial("Mat", scene);
+ 
+     var hori2 = BABYLON.MeshBuilder.CreatePlane(name, {width:.25,height:.09}, scene);
+     hori2.position = new BABYLON.Vector3(0, 0, 0);
+     hori2.material = new BABYLON.StandardMaterial("Mat", scene);
+
+     var plus2 = BABYLON.Mesh.MergeMeshes([vertical2, hori2]);
+     plus2.position = new BABYLON.Vector3(-5.8, -.9, -11);
+
+     var minus1 = BABYLON.MeshBuilder.CreatePlane(name, {width:.21,height:.09}, scene);
+     minus1.position = new BABYLON.Vector3(-6.2, .7, -11);
+     minus1.material = new BABYLON.StandardMaterial("Mat", scene);
+
+     var minus2 = BABYLON.MeshBuilder.CreatePlane(name, {width:.21,height:.09}, scene);
+     minus2.position = new BABYLON.Vector3(-6.2, -.9, -11);
+     minus2.material = new BABYLON.StandardMaterial("Mat", scene);
+
     // material for dynamic waveform objects
     var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", scene);
     waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", scene);
