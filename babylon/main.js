@@ -188,7 +188,7 @@ var createScene = async function () {
     // Lights
     var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-10, -5, 10), scene);
     var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
-    var hemisphericLight = new BABYLON.HemisphericLight("Omni", new BABYLON.Vector3(0, 10, -20), scene);
+    var hemisphericLight = new BABYLON.HemisphericLight("Omni", new BABYLON.Vector3(0, 1, -20), scene);
 
     // Need a free camera for collisions
     var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 2, -20), scene);
@@ -208,40 +208,35 @@ var createScene = async function () {
 
     //WILL CREATE FUNCTION TO REDUCE REDUDANT CODE
     //Create Plane For Ceiling
-    // var ceiling = BABYLON.MeshBuilder.CreatePlane("plane", {height:40, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    // var ceilingMaterial = new BABYLON.StandardMaterial("ceilingColor", scene);
+//      var ceiling = BABYLON.MeshBuilder.CreatePlane("plane", {height:20, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+//      var ceilingMaterial = new BABYLON.StandardMaterial("ceilingColor", scene);
     
-    // //Postioning plane to the middle of the room
-    // ceiling.position = new BABYLON.Vector3(0, 5, -20);
-    // ceilingMaterial.diffuseColor = new BABYLON.Color3(0,0,0);
+//     // //Postioning plane to the middle of the room
+//     ceiling.position = new BABYLON.Vector3(0, 4.45, -20);
+//     ceilingMaterial.diffuseTexture = new BABYLON.Texture("textures/ceiling_texture.jpg", scene);
+//    // box.material.diffuseTexture = new BABYLON.Texture("textures/nice_flooring.jpg", scene);
 
-    // //Rotating plane to fit in ceiling
-    // ceiling.rotation.x = Math.PI / 2;
-    // ceiling.material = ceilingMaterial;
+//     // //Rotating plane to fit in ceiling
+//     ceiling.rotation.x = Math.PI / 2;
+//     ceiling.material = ceilingMaterial;
 
-    // /******************** Create Plane For Wall 1 (front) *********************/
-    // var wall1 = BABYLON.MeshBuilder.CreatePlane("wall1", {height:10, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    // var wallMaterial = new BABYLON.StandardMaterial("wallColor", scene);
+//     // /******************** Create Plane For Wall 1 (front) *********************/
+//     var wall1 = BABYLON.MeshBuilder.CreatePlane("wall1", {height:7, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
+//     var wallMaterial = new BABYLON.StandardMaterial("wall1Color", scene);
+//     wallMaterial.diffuseTexture = new BABYLON.Texture("textures/wall_texture.jpg", scene);
+//     wall1.material = wallMaterial;
+//     // //Postioning plane to the middle of the room
+//     wall1.position = new BABYLON.Vector3(0, 1, -10.1);
+
+
+//     // /******************** Create Plane For Wall 2 (left) *********************/
+//     var wall2 = BABYLON.MeshBuilder.CreatePlane("wall2", {height:7, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
     
-    // //Postioning plane to the middle of the room
-    // wall1.position = new BABYLON.Vector3(0, 0, -1);
-    // wallMaterial.diffuseColor = new BABYLON.Color3(1,0,1);
-
-    // //Rotating plane to fit in wall
-    // //ceiling.rotation.x = Math.PI / 2;
-    // wall1.material = wallMaterial;
-
-    // /******************** Create Plane For Wall 2 (left) *********************/
-    // var wall2 = BABYLON.MeshBuilder.CreatePlane("wall2", {height:10, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    // var wallMaterial = new BABYLON.StandardMaterial("wallColor", scene);
-    
-    // //Postioning plane to the middle of the room
-    // wall2.position = new BABYLON.Vector3(-19.5, 0, -20);
-    // wallMaterial.diffuseColor = new BABYLON.Color3(1,0,1);
-
-    // //Rotating plane to fit in wall
-    // wall2.rotation.y = -(Math.PI / 2);
-    // wall2.material = wallMaterial;
+//     // //Postioning plane to the middle of the room
+//     wall2.position = new BABYLON.Vector3(-9.9, 1, -20);
+//     wall2.material = wallMaterial;
+//     // //Rotating plane to fit in wall
+//      wall2.rotation.y = -(Math.PI / 2);
 
     // /******************** Create Plane For Wall 3 (right) *********************/
     // var wall3 = BABYLON.MeshBuilder.CreatePlane("wall3", {height:10, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
@@ -268,7 +263,7 @@ var createScene = async function () {
     //  wall4.material = wallMaterial;
 
     box.material = new BABYLON.StandardMaterial("Mat", scene);
-    box.material.diffuseTexture = new BABYLON.Texture("textures/floor_texture.png", scene);
+    box.material.diffuseTexture = new BABYLON.Texture("textures/nice_flooring.jpg", scene);
     box.material.specularColor = new BABYLON.Color3.Black();
     box.position = new BABYLON.Vector3(0, 1, -20);
 
@@ -374,6 +369,38 @@ var createScene = async function () {
         });
 
     });
+    var guitar;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "guitar.glb", scene, function (newMeshes) {
+        //scene.createDefaultCameraOrLight(true, true, true);
+        guitar = newMeshes[0];
+        console.log("Loaded guitar");
+        guitar.scaling = new BABYLON.Vector3(.4, .4, .4);
+        guitar.position = new BABYLON.Vector3(9.9, 1.5, -15.5);
+        guitar.rotation = new BABYLON.Vector3(Math.PI/2,Math.PI *3/2, Math.PI/2);
+        newMeshes.forEach(function(item){
+            item.isPickable = true;
+            item.collisionsEnabled = true;
+            item.checkCollisions = true;
+    
+        });
+
+    });
+    var amp;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "amp.glb", scene, function (newMeshes) {
+        //scene.createDefaultCameraOrLight(true, true, true);
+        amp = newMeshes[0];
+        console.log("Loaded amp");
+       // amp.scaling = new BABYLON.Vector3(.75, .75, .75);
+        amp.position = new BABYLON.Vector3(9.7, -1.5, -15.5);
+        amp.rotation = new BABYLON.Vector3(0,Math.PI/2, 0);
+        newMeshes.forEach(function(item){
+            item.isPickable = true;
+            item.collisionsEnabled = true;
+            item.checkCollisions = true;
+    
+        });
+
+    });
     var piano;
     meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "piano.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
@@ -384,6 +411,22 @@ var createScene = async function () {
         piano.scaling.z = 3.5;
         piano.position = new BABYLON.Vector3(9.5, -2.5, -20);
         //desk.rotation = new BABYLON.Vector3(0,Math.PI/2,0);
+        newMeshes.forEach(function(item){
+            item.isPickable = true;
+            item.collisionsEnabled = true;
+            item.checkCollisions = true;
+    
+        });
+
+    });
+    var drums;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "drums.glb", scene, function (newMeshes) {
+        //scene.createDefaultCameraOrLight(true, true, true);
+        drums = newMeshes[0];
+        console.log("Loaded drums");
+        drums.scaling = new BABYLON.Vector3(.0017, .0017, .0017)
+        drums.position = new BABYLON.Vector3(8, -2.5, -27);
+        drums.rotation = new BABYLON.Vector3(0,Math.PI/2,0);
         newMeshes.forEach(function(item){
             item.isPickable = true;
             item.collisionsEnabled = true;
@@ -410,6 +453,22 @@ var createScene = async function () {
         });
 
     });
+    var table;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "table.glb", scene, function (newMeshes) {
+        //scene.createDefaultCameraOrLight(true, true, true);
+        table = newMeshes[0];
+        console.log("Loaded table");
+        table.position = new BABYLON.Vector3(-6, -2, -26);
+        table.scaling = new BABYLON.Vector3(3, 2.5, 3);
+        table.rotation = new BABYLON.Vector3(0,Math.PI/2,0);
+        newMeshes.forEach(function(item){
+            item.isPickable = true;
+            item.collisionsEnabled = true;
+            item.checkCollisions = true;
+    
+        });
+
+    });
     var light;
     meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "ceiling_light.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
@@ -418,7 +477,7 @@ var createScene = async function () {
         light.scaling.x = .002;
         light.scaling.y = .0015;
         light.scaling.z = .002;
-        light.position = new BABYLON.Vector3(0, 1.5, -22);
+        light.position = new BABYLON.Vector3(0, 2.5, -22);
         //light.rotation = new BABYLON.Vector3(0,0,0);
         newMeshes.forEach(function(item){
             item.isPickable = true;
@@ -438,11 +497,11 @@ var createScene = async function () {
     dynamicCylinder.checkCollisions = true;
 
     // Sphere to pick up/place down
-    var pickupSphere = BABYLON.Mesh.CreateSphere("pickupSphere", 32, 1, scene);
-    //pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
-    pickupSphere.position = new BABYLON.Vector3(-8, -2, -27);
-    pickupSphere.isPickable = true;
-    pickupSphere.checkCollisions = true;
+    // var pickupSphere = BABYLON.Mesh.CreateSphere("pickupSphere", 32, 1, scene);
+    // //pickupSphere.position = new BABYLON.Vector3(-8, -3, -21);
+    // pickupSphere.position = new BABYLON.Vector3(-8, -2, -27);
+    // pickupSphere.isPickable = true;
+    // pickupSphere.checkCollisions = true;
 
     // Donut shape on top of audio box 
     var laneTorus = BABYLON.MeshBuilder.CreateTorus("laneAdd", {});
