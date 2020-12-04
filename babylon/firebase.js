@@ -60,7 +60,7 @@ var loadMusic = async function (fileName, scene, soundReady, audioBox) {
   });
 }
 
-var displaySamples = async function (dropdown) {
+var displaySamples = async function (Panel) {
   return db
       .collection('musics')
       .get()
@@ -73,7 +73,7 @@ var displaySamples = async function (dropdown) {
                   createdAt: doc.data().createdAt,
                   audioUrl: doc.data().audioUrl
               });
-              dropdown.addOption(doc.data().name);
+              Panel.addOption(doc.data().name);
           });
           return samples;
       })
@@ -83,7 +83,15 @@ var displaySamples = async function (dropdown) {
       });
 }
 
-class Dropdown
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+  }
+  
+function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+}
+
+class Panel
 {
 	constructor(advancedTexture, height, width)
 	{
@@ -98,28 +106,19 @@ class Dropdown
         // Container
 		this.container = new BABYLON.GUI.Container();
         this.container.width = this.width;
-        this.container.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        this.container.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+        this.container.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+        this.container.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         this.container.isHitTestVisible = false;
-        
-        // Primary button
-        this.button = BABYLON.GUI.Button.CreateSimpleButton(null, "Please Select");
-        this.button.height = this.height;
-        this.button.background = this.background;
-        this.button.color = this.color;
-        this.button.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    
 
         // Options panel
         this.options = new BABYLON.GUI.StackPanel();
-        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
         this.options.top = this.height;
         this.options.isVisible = false;
         this.options.isVertical = true;
 
         var _this = this;
-        this.button.onPointerUpObservable.add(function() {
-            _this.options.isVisible = !_this.options.isVisible;
-        });
 
         //custom hack to make dropdown visible;
         this.container.onPointerEnterObservable.add(function(){
@@ -132,7 +131,6 @@ class Dropdown
 
         // add controls
         this.advancedTexture.addControl(this.container);
-        this.container.addControl(this.button);
         this.container.addControl(this.options);        
 	}
 
@@ -159,29 +157,11 @@ class Dropdown
         button.paddingTop = "-1px";
         button.background = this.background;
         button.color = this.color;
-        button.alpha = 1.0;
+        button.alpha = 0.9;
         button.onPointerUpObservable.add(() => {
             this.options.isVisible = false;            
         });        
         button.onPointerClickObservable.add(callback); 
         this.options.addControl(button);
     }
-
-    clearOptions(){
-        this.options = new BABYLON.GUI.StackPanel();
-        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-        this.options.top = this.height;
-        this.options.isVisible = false;
-        this.options.isVertical = true;
-    }
-	
 };
-
-function openForm() {
-    document.getElementById("myForm").style.display = "block";
-  }
-  
-function closeForm() {
-    document.getElementById("myForm").style.display = "none";
-}
-

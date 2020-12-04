@@ -43,16 +43,24 @@
         
         /* Button used to open the contact form - fixed at the bottom of the page */
         .open-button {
-          background-color: #555;
-          color: white;
-          padding: 16px 20px;
-          border: none;
+          /* background-color: #555; */
+          /* color: white; */
+          /* padding: 16px 20px; */
+          /* border: none; */
           cursor: pointer;
-          opacity: 0.8;
+          /* opacity: 0.8; */
           position: fixed;
-          bottom: 23px;
+          bottom: 20px;
           right: 28px;
-          width: 280px;
+          /* width: 280px; */
+
+          border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
         }
         
         /* The popup form - hidden by default */
@@ -69,7 +77,7 @@
         .form-container {
           max-width: 300px;
           padding: 10px;
-          background-color: white;
+          background-color: rgb(145, 123, 123);
         }
         
         /* Full-width input fields */
@@ -108,6 +116,31 @@
         .form-container .btn:hover, .open-button:hover {
           opacity: 1;
         }
+
+        .upload-btn-wrapper {
+            position: absolute;
+            right: 10px; 
+            top: 100px;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .btn {
+            border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
         </style>
 </head>
 
@@ -118,27 +151,26 @@
     $('body').append('<h1 id="gui elem 1" style="position: absolute; right: 10px; top: 60px;">gui elem 1</h1>');
     $('body').append('<h1 id="gui elem 2" style="position: absolute; right: 10px; top: 100px;">gui elem 2</h1>');-->
 
-    
-    <div class="mainDiv" style="position: absolute; right: 10px; top: 160px;">
-        <h1>Firebase File Upload</h1>
-        <progress id="uploader" value="0" max="100">0%</progress>
+    <div class="upload-btn-wrapper">
+        <button class="btn">Upload a file</button>
         <input type="file" id="fileButton" value="upload" />
     </div>
-
-
-<button class="open-button" onclick="openForm()">Login</button>
-
-<div class="form-popup" id="myForm">
-  <form class="form-container">
-    <h1>Login</h1>
-
-    <label for="username"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="username" id="usernameInput" required>
-
-    <button type="button" class="btn" onclick="setUsername(document.getElementById('usernameInput').value)">Login</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-</div>
+    
+    
+    <button class="open-button" onclick="openForm()">Login</button>
+    
+    <div class="form-popup" id="myForm">
+        <form class="form-container">
+            <h1>Login</h1>
+    
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" id="usernameInput" required>
+    
+            <button type="button" class="btn"
+                onclick="setUsername(document.getElementById('usernameInput').value)">Login</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
 
 
     <script>

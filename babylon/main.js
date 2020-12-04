@@ -583,6 +583,9 @@ var createScene = async function () {
             }
         }
     });*/
+    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    var panel = new Panel(advancedTexture, "80px", "400px");
+    samples = await displaySamples(panel);
     scene.onPointerDown = function (evt, pickResult) {
 
         if (pickResult.hit) {
@@ -731,6 +734,10 @@ var createScene = async function () {
                     daw.setEnabled(true), dawtab.setEnabled(true), mainPlay.setEnabled(true), mainPause.setEnabled(true);
                 }
             }
+            // click on nothing to close the library panel
+            else {
+                panel.options.isVisible = false;
+            }
             if (pickResult.pickedMesh.name == "daw") {
                 console.log("daw is clicked");
 
@@ -739,90 +746,16 @@ var createScene = async function () {
                 console.log("tab is clicked");
 
             }
+            // click on the desk to show the music library
+            if (pickResult.pickedMesh.name == "Desk_Desk_0") {
+                panel.options.isVisible = !panel.options.isVisible;
+            }
             
         }
     }
-
-    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-
-    var dropdownA = new Dropdown(advancedTexture, "40px", "250px");
-    dropdownA.button.children[0].text = "My Library";
-    dropdownA.top = "10px";
-    dropdownA.right = "10px";
-    samples = await displaySamples(dropdownA);
-
-    // button = BABYLON.GUI.Button.CreateSimpleButton(null, "Reload");
-    // button.width = "48px";
-    // button.height = "86px";
-    // button.thickness = 0;
-    // button.verticalAlignment = 0;
-    // button.horizontalAlignment = 1;
-    // button.top = "60px";
-    // advancedTexture.addControl(button);
-
-    // const playerUI = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    // samplePanel = createSamplePanel(playerUI);
-    // playerUI.idealHeight = 720; //fit our fullscreen ui to this height
-    // //create a simple button
-    // const pauseBtn = BABYLON.GUI.Button.CreateSimpleButton("start", "SAMPLES");
-    // pauseBtn.width = "48px";
-    // pauseBtn.height = "86px";
-    // pauseBtn.thickness = 0;
-    // pauseBtn.verticalAlignment = 0;
-    // pauseBtn.horizontalAlignment = 1;
-    // pauseBtn.top = "-16px";
-    // playerUI.addControl(pauseBtn);
-    // pauseBtn.zIndex = 10;
-    // this.pauseBtn = pauseBtn;
-    // //this handles interactions with the start button attached to the scene
-    // pauseBtn.onPointerClickObservable.add(async () => {
-    //     var samples = await displaySamples();
-    //     console.log(samples)
-    //     samplePanel.isVisible = true;
-    //     samplePanel.textBlock
-    //     playerUI.addControl(samplePanel);
-    // });
-
     return scene;
 };
 
-createSamplePanel = (playerUI) => {
-    const samplePanel = new BABYLON.GUI.Rectangle();
-    samplePanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-    samplePanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    samplePanel.height = 0.8;
-    samplePanel.width = 0.5;
-    samplePanel.thickness = 1;
-    samplePanel.background = "blue";
-    samplePanel.cornerRadius = 20;
-    samplePanel.isVisible = false;
-
-    //stack panel for the buttons
-    const stackPanel = new BABYLON.GUI.StackPanel();
-    stackPanel.width = .83;
-    samplePanel.addControl(stackPanel);
-
-    const resumeBtn = BABYLON.GUI.Button.CreateSimpleButton("resume", "RESUME");
-    resumeBtn.width = 0.18;
-    resumeBtn.height = "44px";
-    resumeBtn.color = "white";
-    // resumeBtn.fontFamily = "Viga";
-    resumeBtn.paddingBottom = "14px";
-    resumeBtn.cornerRadius = 14;
-    resumeBtn.fontSize = "12px";
-    resumeBtn.textBlock.resizeToFit = true;
-    resumeBtn.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-    resumeBtn.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-    stackPanel.addControl(resumeBtn);
-
-    resumeBtn.onPointerDownObservable.add(() => {
-        samplePanel.isVisible = false;
-        playerUI.removeControl(samplePanel);
-    });
-    
-    
-    return samplePanel;
-}
 
 var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
 
