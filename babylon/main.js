@@ -124,6 +124,74 @@ var createScene = async function () {
     music4.setVolume(0.5);
     music5.setVolume(0.5);
 
+    //set this as the default lane volume for now
+    lane1Vol = 0.5;
+    lane2Vol = 0.5;
+    var queue = new BABYLON.Sound("quack", "quack.mp3", scene);
+    function adjustVolume(number, upOrDown){
+        console.log("adjusting volume of lane ", number);
+        for( var fileIdx = 0; fileIdx < dawFiles.length; fileIdx++) {
+            //console.log("goes in for ", fileIdx);
+            if( number !== 2 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
+                //music[fileIdx].pause();
+                //test for now
+                console.log("lane 1 volume currently at ", lane1Vol);
+                if(upOrDown == 1){
+                    if(lane1Vol >= 1.0){
+                        console.log("max volume at 1");
+                        queue.play();
+                        break;
+                    }
+                    lane1Vol += 0.1;
+                    music[fileIdx].setVolume(lane1Vol);  
+                    console.log("Lane 1 vol is now ", music[fileIdx].getVolume());       
+                }
+                else if(upOrDown == 0){
+                    if(lane1Vol <= 0.1){
+                        console.log("min volume at 0");
+                        lane1Vol = 0;
+                        queue.play();   
+                        music[fileIdx].setVolume(lane1Vol); 
+                        break;
+                    }
+                    else{
+                        lane1Vol -= 0.1;
+                        music[fileIdx].setVolume(lane1Vol); 
+                        console.log("Lane 1 vol is now ", music[fileIdx].getVolume());            
+                    }
+                }
+ 
+            }
+            if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
+                console.log("lane 2 volume currently at ", lane2Vol);
+                if(upOrDown == 1){
+                    if(lane2Vol >= 1.0){
+                        console.log("max volume at 1");
+                        queue.play();
+                        break;
+                    }
+                    lane2Vol += 0.1;
+                    music[fileIdx].setVolume(lane2Vol);  
+                    console.log("Lane 2 vol is now ", music[fileIdx].getVolume());       
+                }
+                else if(upOrDown == 0){
+                    if(lane2Vol <= 0.1){
+                        console.log("min volume at 0");
+                        lane2Vol = 0;
+                        music[fileIdx].setVolume(lane2Vol); 
+                        queue.play();
+                        break;
+                    }
+                    else{
+                        lane2Vol -= 0.1;
+                        music[fileIdx].setVolume(lane2Vol);    
+                        console.log("Lane 2 vol is now ", music[fileIdx].getVolume());            
+                    }
+                }
+            }
+        }
+    }
+
     var soundsReady = 0;
 
     function soundReady(number) {
@@ -135,9 +203,16 @@ var createScene = async function () {
                     console.log("goes in for ", fileIdx);
                     if( number !== 2 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
                         music[fileIdx].pause();
+                        //test for now
+                        music[fileIdx].setVolume(lane1Vol);
                     }
                     if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
                         music[fileIdx].pause();
+                        //test for now
+                        music[fileIdx].setVolume(lane2Vol);
+                        console.log("playing in lane 2 with volume ", lane2Vol);
+
+
                     }
                 }
                 isMusicPlaying = false;
@@ -147,9 +222,13 @@ var createScene = async function () {
                 for( var fileIdx = 0; fileIdx < laneBoxes.length; fileIdx++) {
                     console.log("goes in for ", fileIdx);
                     if( number !== 2 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
+                        console.log("playing in lane 1 with volume ", lane1Vol);
+                        music[fileIdx].setVolume(lane1Vol);
                         music[fileIdx].play();
                     }
                     if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
+                        console.log("playing in lane 2 with volume ", lane2Vol);
+                        music[fileIdx].setVolume(lane2Vol);
                         music[fileIdx].play();
                     }
                 }
@@ -618,16 +697,20 @@ var createScene = async function () {
             // Adjusting lane volume
             else if (pickResult.pickedMesh.name == "plus1"){
                 console.log("lane1 volume up has been pressed");
+                adjustVolume(1,1);
 
             }
             else if (pickResult.pickedMesh.name == "plus2"){
                 console.log("lane2 volume up has been pressed");
+                adjustVolume(2,1);
             }
             else if (pickResult.pickedMesh.name == "minus1"){
                 console.log("lane1 volume down has been pressed");
+                adjustVolume(1,0);
             }
             else if (pickResult.pickedMesh.name == "minus2"){
                 console.log("lane2 volume down has been pressed");
+                adjustVolume(0,0);
             }
 
             // Cube that turns the DAW on and off 
