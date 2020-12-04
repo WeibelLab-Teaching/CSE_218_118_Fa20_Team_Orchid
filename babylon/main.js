@@ -460,6 +460,7 @@ var createScene = async function () {
      var plus1 = BABYLON.Mesh.MergeMeshes([vertical, hori]);
      plus1.position = new BABYLON.Vector3(-5.8, .7, -11);
      plus1.name = "plus1";
+     
      var vertical2 = BABYLON.MeshBuilder.CreatePlane(name, {width:.09,height:.25}, scene);
      vertical2.position = new BABYLON.Vector3(0, 0, 0);
      vertical2.material = new BABYLON.StandardMaterial("Mat", scene);
@@ -470,7 +471,8 @@ var createScene = async function () {
 
      var plus2 = BABYLON.Mesh.MergeMeshes([vertical2, hori2]);
      plus2.position = new BABYLON.Vector3(-5.8, -.9, -11);
-    plus2.name = "plus2";
+     plus2.name = "plus2";
+     
      var minus1 = BABYLON.MeshBuilder.CreatePlane("minus1", {width:.21,height:.09}, scene);
      minus1.position = new BABYLON.Vector3(-6.2, .7, -11);
      minus1.material = new BABYLON.StandardMaterial("Mat", scene);
