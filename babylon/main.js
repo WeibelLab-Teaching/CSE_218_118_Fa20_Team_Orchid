@@ -1,3 +1,11 @@
+var username = "default";
+
+var setUsername = function (text) {
+    username = text;
+    console.log(username);
+    closeForm();
+}
+
 var canvas = document.getElementById("renderCanvas");
 
 var createScene = async function () {
