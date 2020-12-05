@@ -15,6 +15,8 @@ var createScene = async function () {
     var lanes = [];
     var laneBoxes = [];
     var music = [];
+    var lane1Offset = [];
+    var lane2Offset = [];
 
     // Lights
     var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-10, -5, 10), scene);
@@ -232,12 +234,13 @@ var createScene = async function () {
                     if( number !== 2 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
                         console.log("playing in lane 1 with volume ", lane1Vol);
                         music[fileIdx].setVolume(lane1Vol);
-                        music[fileIdx].play();
+                        console.log("offset is ", lane1Offset[fileIdx], "with all being ", lane1Offset);
+                        music[fileIdx].play(lane1Offset[fileIdx]);
                     }
                     if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
                         console.log("playing in lane 2 with volume ", lane2Vol);
                         music[fileIdx].setVolume(lane2Vol);
-                        music[fileIdx].play();
+                        music[fileIdx].play(lane2Offset[fileIdx]);
                     }
                 }
                 // music1.play();
@@ -417,7 +420,7 @@ var createScene = async function () {
      //w = 13.8, height = 5
     //var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     //daw.position = new BABYLON.Vector3(0, -1, -4);
-    var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 13.8, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
+    var daw = BABYLON.MeshBuilder.CreatePlane("daw", {width: 14, height: 5, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     daw.position = new BABYLON.Vector3(0, 0, -10.5);
     daw.material = dawMaterial;
     daw.checkCollisions = true;
@@ -426,7 +429,7 @@ var createScene = async function () {
     //var dawtab = BABYLON.MeshBuilder.CreatePlane("tab", {width: 3, height: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
     //dawtab.position = new BABYLON.Vector3(-5.4, .5, -4);
     var dawtab = BABYLON.MeshBuilder.CreatePlane("tab", {width: 3, height: 3, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene, true);
-    dawtab.position = new BABYLON.Vector3(-5.4, 1.5, -10.5);
+    dawtab.position = new BABYLON.Vector3(-5.5, 1.5, -10.5);
     dawtab.material = dawMaterial;
 
     var laneMaterial = new BABYLON.StandardMaterial("laneMaterial", scene);
@@ -536,18 +539,18 @@ var createScene = async function () {
     var lane0Material = new BABYLON.StandardMaterial("measureBar", scene);
     lane0Material.diffuseTexture = new BABYLON.Texture("textures/measurebar.png", scene);
     lane0Material.specularColor = new BABYLON.Color3(0, 0, 0.1);
-    var lane0 = BABYLON.MeshBuilder.CreatePlane("lane0", {width: 11.25, height: 0.35}, scene)
+    var lane0 = BABYLON.MeshBuilder.CreatePlane("lane0", {width: 11, height: 0.35}, scene)
     lane0.position = new BABYLON.Vector3(0.25, 2.15, -11);
     lane0.material = lane0Material;
     lane0.setEnabled(true);
 
     // lane 1 in the daw
-    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 11.25, height: 1}, scene);
+    var lane1 = BABYLON.MeshBuilder.CreatePlane("lane1", {width: 11, height: 1}, scene);
     lane1.position = new BABYLON.Vector3(0.25, 1.2, -11);
     lane1.material = laneMaterial;
     lane1.setEnabled(true);
     lanes.push(lane1);
-    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11.25, height: 1, depth: 2}, scene);
+    var lane1box = BABYLON.MeshBuilder.CreateBox("lane1box", {width: 11, height: 1, depth: 2}, scene);
     lane1box.position = new BABYLON.Vector3(0.25, 1.2, -11.5);
     lane1box.isVisible = false;
     laneBoxes.push(lane1box);
@@ -610,6 +613,7 @@ var createScene = async function () {
                 dawFiles.push(obj);
                 switch(dawFiles.length) {
                     case 1:
+                        console.log(music1.length);
                         music1.attachToMesh(obj);
                         music.push(music1);
                         break;
@@ -642,21 +646,47 @@ var createScene = async function () {
                             pickResult.pickedMesh.setParent(lanes[laneBoxesI]);
                             pickResult.pickedMesh.rotation = pickResult.pickedMesh.parent.rotation;
                             pickResult.pickedMesh.position.y = 0;
-                            pickResult.pickedMesh.position.z = -0.1;
-                            /*if (pickResult.pickedMesh.position.x < 0.75) {
-                                console.log("old was ", pickResult.pickedMesh.position.x);
-                                pickResult.pickedMesh.position.x = 0.25;
-                                console.log("parent is", pickResult.pickedMesh.parent.position.x);
-                                console.log("new is ", pickResult.pickedMesh.position.x);
-                            } else if (pickResult.pickedMesh.position.x < 0.5) {
-                                pickResult.pickedMesh.position.x = pickResult.pickedMesh.parent.position.x;
-                            } else if (pickResult.pickedMesh.position.x < 1.5) {
-                                pickResult.pickedMesh.position.x = 1.0;
-                            } else if (pickResult.pickedMesh.position.x < 3.75) {
-                                pickResult.pickedMesh.position.x = 3.25;
-                            } else if (pickResult.pickedMesh.position.x < 4.75) {
-                                pickResult.pickedMesh.position.x = 4.25;
-                            }*/
+                            pickResult.pickedMesh.position.z = -0.05;
+                            var difference = 1.1;
+                            var base = -1.50;
+                            var compBase = -0.50;
+                            var timeOffset = 1;
+                            if (pickResult.pickedMesh.position.x < compBase) {
+                                pickResult.pickedMesh.position.x = base;
+                                if (laneBoxesI == 0) {
+                                    lane1Offset.push(0);
+                                } else {
+                                    lane2Offset.push(0);
+                                }
+                            } else if (pickResult.pickedMesh.position.x < compBase + difference) {
+                                pickResult.pickedMesh.position.x = base + difference;
+                                if (laneBoxesI == 0) {
+                                    lane1Offset.push(timeOffset);
+                                } else {
+                                    lane2Offset.push(timeOffset);
+                                }
+                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 2) {
+                                pickResult.pickedMesh.position.x = base + difference * 2;
+                                if (laneBoxesI == 0) {
+                                    lane1Offset.push(timeOffset * 2);
+                                } else {
+                                    lane2Offset.push(timeOffset * 2);
+                                }
+                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 3) {
+                                pickResult.pickedMesh.position.x = base + difference * 3;
+                                if (laneBoxesI == 0) {
+                                    lane1Offset.push(timeOffset * 3);
+                                } else {
+                                    lane2Offset.push(timeOffset * 3);
+                                }
+                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 4) {
+                                pickResult.pickedMesh.position.x = base + difference * 4;
+                                if (laneBoxesI == 0) {
+                                    lane1Offset.push(timeOffset * 4);
+                                } else {
+                                    lane2Offset.push(timeOffset * 4);
+                                }
+                            }
                         }
                     }
                     
