@@ -587,7 +587,7 @@ var createScene = async function () {
         }
     });*/
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    var panel = new Panel(advancedTexture, "80px", "400px");
+    var panel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
     samples = await displaySamples(panel);
     scene.onPointerDown = function (evt, pickResult) {
 

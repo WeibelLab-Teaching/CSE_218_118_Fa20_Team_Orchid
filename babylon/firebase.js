@@ -39,26 +39,27 @@ var uploadAudio = function () {
   });  
 }
 
-var loadMusic = async function (fileName, scene, soundReady, audioBox) {
-  const storageRef = firebase.storage().ref();
-  storageRef.child(fileName).getDownloadURL().then(url => {
-      return axios({
-          method: 'get',
-          url: url,
-          responseType: 'blob'
-      })
-  }).then(blob => {
-      return blob.data.arrayBuffer();
-  }).then(buffer => {
-      music = new BABYLON.Sound("FromArrayBuffer", buffer, scene, soundReady, { 
-          loop: true,
-          autoplay: false
-      });
-      music.attachToMesh(audioBox);
-  }).catch(function (error) {
-      console.error(error);
-  });
-}
+var loadMusic = async function (fileName, scene, soundReady, mesh) {
+    const storageRef = firebase.storage().ref();
+    return storageRef.child(fileName).getDownloadURL().then(url => {
+        return axios({
+            method: 'get',
+            url: url,
+            responseType: 'blob'
+        })
+    }).then(blob => {
+        return blob.data.arrayBuffer();
+    }).then(buffer => {
+        music = new BABYLON.Sound(fileName, buffer, scene, soundReady, { 
+            loop: true,
+        });
+        music.attachToMesh(mesh);
+        console.log(music)
+        return music;
+    }).catch(function (error) {
+        console.error(error);
+    });
+  }
 
 var displaySamples = async function (Panel) {
   return db
@@ -93,15 +94,18 @@ function closeForm() {
 
 class Panel
 {
-	constructor(advancedTexture, height, width)
+	constructor(scene, advancedTexture, height, width, dawFiles, music, soundReady)
 	{
 		// Members
         this.height = height;
         this.width = width;
         this.color = "black";
         this.background = "white";
-
+        this.scene = scene;
         this.advancedTexture = advancedTexture;
+        this.dawFiles = dawFiles;
+        this.music = music;
+        this.soundReady = soundReady;
 
         // Container
 		this.container = new BABYLON.GUI.Container();
@@ -150,8 +154,7 @@ class Panel
        this.container.left = value;     
     } 
 	
-    addOption(text, callback)
-	{
+    addOption(text) {
         var button = BABYLON.GUI.Button.CreateSimpleButton(text, text);
         button.height = this.height;
         button.paddingTop = "-1px";
@@ -159,9 +162,30 @@ class Panel
         button.color = this.color;
         button.alpha = 0.9;
         button.onPointerUpObservable.add(() => {
-            this.options.isVisible = false;            
-        });        
-        button.onPointerClickObservable.add(callback); 
+            this.options.isVisible = false;
+        });
+        button.onPointerClickObservable.add(async () => {
+            var name = "dawFile_".concat(text);
+            console.log("name is: " + name);
+            var obj = BABYLON.MeshBuilder.CreatePlane(name, { width: 8, height: .8 }, this.scene);
+            obj.position = new BABYLON.Vector3(0, 1, -13);
+            obj.height = 1;
+            obj.width = 2;
+            obj.checkCollisions = true;
+            obj.setEnabled(true);
+            console.log("height of obj is " + obj.height + " and width is " + obj.width);
+            var waveformMaterial = new BABYLON.StandardMaterial("texturePlane", this.scene);
+            waveformMaterial.diffuseTexture = new BABYLON.Texture("textures/waveformjs.png", this.scene);
+            waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
+            waveformMaterial.backFaceCulling = false;
+            obj.material = waveformMaterial;
+            var audio = await loadMusic(text, this.scene, this.soundReady, obj);
+            audio.setVolume(0.5);
+            this.dawFiles.push(obj);
+            this.music.push(audio);
+            console.log(this.music);
+            console.log(this.dawFiles);
+        });
         this.options.addControl(button);
     }
 };
