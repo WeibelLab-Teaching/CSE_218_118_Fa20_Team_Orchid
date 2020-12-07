@@ -122,9 +122,9 @@ var createScene = async function () {
     // Audio Creation
     var isMusicPlaying = true;
     //var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
-    var music1 = new BABYLON.Sound("rolling_A1", "rolling_A1.mp3", scene, soundReady, {loop: false});
-    var music2 = new BABYLON.Sound("rolling_A2", "rolling_A2.mp3", scene, soundReady, {loop: false});
-    var music3 = new BABYLON.Sound("rolling_S1", "rolling_S1.mp3", scene, soundReady, {loop: false});
+    var music1 = new BABYLON.Sound("rolling_A1", "Dona Nobis 1.mp3", scene, soundReady, {loop: false});
+    var music2 = new BABYLON.Sound("rolling_A2", "Dona Nobis 2.mp3", scene, soundReady, {loop: false});
+    var music3 = new BABYLON.Sound("rolling_S1", "Dona Nobis 3.mp3", scene, soundReady, {loop: false});
     var music4 = new BABYLON.Sound("rolling_S2", "rolling_S2.mp3", scene, soundReady, {loop: false});
     var music5 = new BABYLON.Sound("rolling_S3", "rolling_S3.mp3", scene, soundReady, {loop: false});
 
@@ -239,6 +239,7 @@ var createScene = async function () {
                     }
                     if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
                         console.log("playing in lane 2 with volume ", lane2Vol);
+                        console.log("offset is ", lane2Offset[fileIdx], "with all being ", lane2Offset);
                         music[fileIdx].setVolume(lane2Vol);
                         music[fileIdx].play(lane2Offset[fileIdx]);
                     }
@@ -569,23 +570,14 @@ var createScene = async function () {
     lane1Play.setEnabled(true);
     lane2Play.setEnabled(true);
 
-    // KEEP THIS PLEASE still testing
-    /*scene.registerBeforeRender(function () {
-        if (typeof dawFiles[0] !== 'undefined') {
-            console.log("please work");
-            dawFiles[0].onCollideObservable.add(() => {
-                dawFiles[0].setParent(lanes[0]);
-                console.log("this works!")
-            });
-            if(dawFiles[0].intersectsMesh(laneBoxes[0])) {
-                console.log("this works");
-                dawFiles[0].setParent(lanes[0]);
-                dawFiles[0].rotation = dawFiles[0].parent.rotation;
-                dawFiles[0].position.y = dawFiles[0].parent.position.y;
-                dawFiles[0].position.x = dawFiles[0].parent.position.x;
-            }
-        }
-    });*/
+    scene.registerBeforeRender(function () {
+        lane1.position = new BABYLON.Vector3(0.25, 1.2, -11);
+        lane1box.position = new BABYLON.Vector3(0.25, 1.2, -11.5);
+        lane2.position = new BABYLON.Vector3(0.25, -0.4, -11);
+        lane2box.position = new BABYLON.Vector3(0.25, -0.4, -11.5);
+
+    });
+
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     var panel = new Panel(advancedTexture, "80px", "400px");
     samples = await displaySamples(panel);
@@ -651,42 +643,18 @@ var createScene = async function () {
                             var base = -1.50;
                             var compBase = -0.50;
                             var timeOffset = 1;
-                            if (pickResult.pickedMesh.position.x < compBase) {
-                                pickResult.pickedMesh.position.x = base;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(0);
-                                } else {
-                                    lane2Offset.push(0);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference) {
-                                pickResult.pickedMesh.position.x = base + difference;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset);
-                                } else {
-                                    lane2Offset.push(timeOffset);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 2) {
-                                pickResult.pickedMesh.position.x = base + difference * 2;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 2);
-                                } else {
-                                    lane2Offset.push(timeOffset * 2);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 3) {
-                                pickResult.pickedMesh.position.x = base + difference * 3;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 3);
-                                } else {
-                                    lane2Offset.push(timeOffset * 3);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 4) {
-                                pickResult.pickedMesh.position.x = base + difference * 4;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 4);
-                                } else {
-                                    lane2Offset.push(timeOffset * 4);
+                            for(var n = 0; n < 10; n++) {
+                                if (pickResult.pickedMesh.position.x < compBase + difference * n) {
+                                    pickResult.pickedMesh.position.x = base + difference * n;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(timeOffset * n);
+                                    } else {
+                                        lane2Offset.push(timeOffset * n);
+                                    }
+                                    break;
                                 }
                             }
+                            console.log("lane offset is ", lane1Offset, lane2Offset, "and laneboxesi is", laneBoxesI);
                         }
                     }
                     
