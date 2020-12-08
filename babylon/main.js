@@ -30,70 +30,13 @@ var createScene = async function () {
     camera.speed = .25;
 
 
-    //Simple crate
+    //Simple crate environment
     var box = new BABYLON.MeshBuilder.CreateBox("crate", {
         width: 20,
         height: 7,
         depth: 20,
         sideOrientation: 1
     }, scene);
-
-
-    //WILL CREATE FUNCTION TO REDUCE REDUDANT CODE
-    //Create Plane For Ceiling
-//      var ceiling = BABYLON.MeshBuilder.CreatePlane("plane", {height:20, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-//      var ceilingMaterial = new BABYLON.StandardMaterial("ceilingColor", scene);
-    
-//     // //Postioning plane to the middle of the room
-//     ceiling.position = new BABYLON.Vector3(0, 4.45, -20);
-//     ceilingMaterial.diffuseTexture = new BABYLON.Texture("textures/ceiling_texture.jpg", scene);
-//    // box.material.diffuseTexture = new BABYLON.Texture("textures/nice_flooring.jpg", scene);
-
-//     // //Rotating plane to fit in ceiling
-//     ceiling.rotation.x = Math.PI / 2;
-//     ceiling.material = ceilingMaterial;
-
-//     // /******************** Create Plane For Wall 1 (front) *********************/
-//     var wall1 = BABYLON.MeshBuilder.CreatePlane("wall1", {height:7, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-//     var wallMaterial = new BABYLON.StandardMaterial("wall1Color", scene);
-//     wallMaterial.diffuseTexture = new BABYLON.Texture("textures/wall_texture.jpg", scene);
-//     wall1.material = wallMaterial;
-//     // //Postioning plane to the middle of the room
-//     wall1.position = new BABYLON.Vector3(0, 1, -10.1);
-
-
-//     // /******************** Create Plane For Wall 2 (left) *********************/
-//     var wall2 = BABYLON.MeshBuilder.CreatePlane("wall2", {height:7, width: 20, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    
-//     // //Postioning plane to the middle of the room
-//     wall2.position = new BABYLON.Vector3(-9.9, 1, -20);
-//     wall2.material = wallMaterial;
-//     // //Rotating plane to fit in wall
-//      wall2.rotation.y = -(Math.PI / 2);
-
-    // /******************** Create Plane For Wall 3 (right) *********************/
-    // var wall3 = BABYLON.MeshBuilder.CreatePlane("wall3", {height:10, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    // var wallMaterial = new BABYLON.StandardMaterial("wallColor", scene);
-    
-    // //Postioning plane to the middle of the room
-    // wall3.position = new BABYLON.Vector3(19.5, 0, -20);
-    // wallMaterial.diffuseColor = new BABYLON.Color3(1,0,1);
-
-    // //Rotating plane to fit in wall
-    // wall3.rotation.y = (Math.PI / 2);
-    // wall3.material = wallMaterial;
-
-    //  /******************** Create Plane For Wall 4 (back) *********************/
-    //  var wall4 = BABYLON.MeshBuilder.CreatePlane("wall3", {height:10, width: 40, sideOrientation: BABYLON.Mesh.DOUBLESIDE}, scene);
-    //  var wallMaterial = new BABYLON.StandardMaterial("wallColor", scene);
-     
-    //  //Postioning plane to the middle of the room
-    //  wall4.position = new BABYLON.Vector3(0, 0, -39.5);
-    //  wallMaterial.diffuseColor = new BABYLON.Color3(1,0,1);
- 
-    //  //Rotating plane to fit in wall
-    //  wall4.rotation.y = -(Math.PI);
-    //  wall4.material = wallMaterial;
 
     box.material = new BABYLON.StandardMaterial("Mat", scene);
     box.material.diffuseTexture = new BABYLON.Texture("textures/nice_flooring.jpg", scene);
@@ -106,11 +49,6 @@ var createScene = async function () {
     // Enable Collisions
     scene.collisionsEnabled = true;
     box.checkCollisions = true;
-    // wall1.checkCollisions = true;
-    // wall2.checkCollisions = true;
-    // wall3.checkCollisions = true;
-    // wall4.checkCollisions = true;
-    //Then apply collisions and gravity to the active camera
     camera.checkCollisions = true;
     camera.applyGravity = true;
     camera._needMoveForGravity = true;
@@ -123,9 +61,9 @@ var createScene = async function () {
     // Audio Creation
     var isMusicPlaying = true;
     //var music = new BABYLON.Sound("music", "guitar.mp3", scene, soundReady, { loop: true });
-    var music1 = new BABYLON.Sound("rolling_A1", "rolling_A1.mp3", scene, soundReady, {loop: false});
-    var music2 = new BABYLON.Sound("rolling_A2", "rolling_A2.mp3", scene, soundReady, {loop: false});
-    var music3 = new BABYLON.Sound("rolling_S1", "rolling_S1.mp3", scene, soundReady, {loop: false});
+    var music1 = new BABYLON.Sound("rolling_A1", "Dona Nobis 1.mp3", scene, soundReady, {loop: false});
+    var music2 = new BABYLON.Sound("rolling_A2", "Dona Nobis 2.mp3", scene, soundReady, {loop: false});
+    var music3 = new BABYLON.Sound("rolling_S1", "Dona Nobis 3.mp3", scene, soundReady, {loop: false});
     var music4 = new BABYLON.Sound("rolling_S2", "rolling_S2.mp3", scene, soundReady, {loop: false});
     var music5 = new BABYLON.Sound("rolling_S3", "rolling_S3.mp3", scene, soundReady, {loop: false});
 
@@ -236,12 +174,13 @@ var createScene = async function () {
                         console.log("playing in lane 1 with volume ", lane1Vol);
                         music[fileIdx].setVolume(lane1Vol);
                         console.log("offset is ", lane1Offset[fileIdx], "with all being ", lane1Offset);
-                        music[fileIdx].play(lane1Offset[fileIdx]);
+                        music[fileIdx].play(lane1Offset[fileIdx] * 3);
                     }
                     if(number !== 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
                         console.log("playing in lane 2 with volume ", lane2Vol);
+                        console.log("offset is ", lane2Offset[fileIdx], "with all being ", lane2Offset);
                         music[fileIdx].setVolume(lane2Vol);
-                        music[fileIdx].play(lane2Offset[fileIdx]);
+                        music[fileIdx].play(lane2Offset[fileIdx] * 3);
                     }
                 }
                 // music1.play();
@@ -570,25 +509,16 @@ var createScene = async function () {
     lane1Play.setEnabled(true);
     lane2Play.setEnabled(true);
 
-    // KEEP THIS PLEASE still testing
-    /*scene.registerBeforeRender(function () {
-        if (typeof dawFiles[0] !== 'undefined') {
-            console.log("please work");
-            dawFiles[0].onCollideObservable.add(() => {
-                dawFiles[0].setParent(lanes[0]);
-                console.log("this works!")
-            });
-            if(dawFiles[0].intersectsMesh(laneBoxes[0])) {
-                console.log("this works");
-                dawFiles[0].setParent(lanes[0]);
-                dawFiles[0].rotation = dawFiles[0].parent.rotation;
-                dawFiles[0].position.y = dawFiles[0].parent.position.y;
-                dawFiles[0].position.x = dawFiles[0].parent.position.x;
-            }
-        }
-    });*/
+    scene.registerBeforeRender(function () {
+        lane1.rotation = new BABYLON.Vector3(0,0,0);
+        lane1box.rotation = new BABYLON.Vector3(0,0,0);
+        lane2.rotation = new BABYLON.Vector3(0,0,0);
+        lane2box.rotation = new BABYLON.Vector3(0,0,0);
+
+    });
+
     var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    var panel = new Panel(advancedTexture, "80px", "400px");
+    var panel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
     samples = await displaySamples(panel);
     scene.onPointerDown = function (evt, pickResult) {
 
@@ -612,6 +542,8 @@ var createScene = async function () {
                 console.log("height of obj is " + obj.height + " and width is " + obj.width);
                 obj.material = waveformMaterial;
                 dawFiles.push(obj);
+                lane1Offset.push(0);
+                lane2Offset.push(0);
                 switch(dawFiles.length) {
                     case 1:
                         console.log(music1.length);
@@ -717,42 +649,20 @@ var createScene = async function () {
                             var base = -1.50;
                             var compBase = -0.50;
                             var timeOffset = 1;
-                            if (pickResult.pickedMesh.position.x < compBase) {
-                                pickResult.pickedMesh.position.x = base;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(0);
-                                } else {
-                                    lane2Offset.push(0);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference) {
-                                pickResult.pickedMesh.position.x = base + difference;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset);
-                                } else {
-                                    lane2Offset.push(timeOffset);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 2) {
-                                pickResult.pickedMesh.position.x = base + difference * 2;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 2);
-                                } else {
-                                    lane2Offset.push(timeOffset * 2);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 3) {
-                                pickResult.pickedMesh.position.x = base + difference * 3;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 3);
-                                } else {
-                                    lane2Offset.push(timeOffset * 3);
-                                }
-                            } else if (pickResult.pickedMesh.position.x < compBase + difference * 4) {
-                                pickResult.pickedMesh.position.x = base + difference * 4;
-                                if (laneBoxesI == 0) {
-                                    lane1Offset.push(timeOffset * 4);
-                                } else {
-                                    lane2Offset.push(timeOffset * 4);
+                            for(var n = 0; n < 10; n++) {
+                                if (pickResult.pickedMesh.position.x < compBase + difference * n) {
+                                    pickResult.pickedMesh.position.x = base + difference * n;
+                                    var numToString = pickResult.pickedMesh.name[pickResult.pickedMesh.name.length - 1].toString();
+                                    console.log("numToString is", numToString, "and lane is", laneBoxesI);
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset[numToString] = timeOffset * n;
+                                    } else {
+                                        lane2Offset[numToString] = (timeOffset * n);
+                                    }
+                                    break;
                                 }
                             }
+                            console.log("lane offset is ", lane1Offset, lane2Offset, "and laneboxesi is", laneBoxesI);
                         }
                     }
                     
