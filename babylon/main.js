@@ -770,7 +770,7 @@ var createScene = async function () {
                 panel.options.isVisible = !panel.options.isVisible;
                 console.log("THIS IS THE CURRENT VR CAMERA: ", vrHelper.currentVRCamera.name);
             }
-            if (pickResult.pickedMesh.name == "Piano") {
+            if (pickResult.pickedMesh.name == "Gitarre higher test15_01 - Default_0") {
                 console.log(`opening ${username}'s library`);
                 userPanel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
                 userSamples = await displaySamples(userPanel, username);
