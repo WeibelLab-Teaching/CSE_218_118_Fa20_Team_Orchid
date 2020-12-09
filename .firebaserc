@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "orchid-b3c90"
+    "default": "orchid-b3c90",
+    "orchid": "orchid-b3c90"
   }
 }

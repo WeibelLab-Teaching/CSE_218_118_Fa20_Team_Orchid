@@ -60,6 +60,7 @@ var createScene = async function () {
 
     // Enable VR
     var vrHelper = scene.createDefaultVRExperience({createDeviceOrientationCamera:false});
+    vrHelper.enableInteractions();
     //vrHelper.enableTeleportation({floorMeshes: [box]});
 
     // Audio Creation
@@ -579,7 +580,72 @@ var createScene = async function () {
             }
             else if (pickResult.pickedMesh.name.startsWith("dawFile")) {
                 console.log("the " + pickResult.pickedMesh.name + " was selected.");
-                if (pickResult.pickedMesh.parent == camera) {
+                //Check if we are currently in VR Mode
+                if (vrHelper.isInVRMode){
+                    //If the parent of the file is the VR Camera, set it to null to release child
+                    if(pickResult.pickedMesh.parent == vrHelper.currentVRCamera){
+                        pickResult.pickedMesh.setParent(null);
+                        for( var laneBoxesI = 0; laneBoxesI < laneBoxes.length; laneBoxesI++) {
+                            if(pickResult.pickedMesh.intersectsMesh(laneBoxes[laneBoxesI])) {
+                                console.log("parent is set to ", laneBoxes[laneBoxesI]);
+                                pickResult.pickedMesh.setParent(lanes[laneBoxesI]);
+                                pickResult.pickedMesh.rotation = pickResult.pickedMesh.parent.rotation;
+                                pickResult.pickedMesh.position.y = 0;
+                                pickResult.pickedMesh.position.z = -0.05;
+                                var difference = 1.1;
+                                var base = -1.50;
+                                var compBase = -0.50;
+                                var timeOffset = 1;
+                                if (pickResult.pickedMesh.position.x < compBase) {
+                                    pickResult.pickedMesh.position.x = base;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(0);
+                                    } else {
+                                        lane2Offset.push(0);
+                                    }
+                                } else if (pickResult.pickedMesh.position.x < compBase + difference) {
+                                    pickResult.pickedMesh.position.x = base + difference;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(timeOffset);
+                                    } else {
+                                        lane2Offset.push(timeOffset);
+                                    }
+                                } else if (pickResult.pickedMesh.position.x < compBase + difference * 2) {
+                                    pickResult.pickedMesh.position.x = base + difference * 2;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(timeOffset * 2);
+                                    } else {
+                                        lane2Offset.push(timeOffset * 2);
+                                    }
+                                } else if (pickResult.pickedMesh.position.x < compBase + difference * 3) {
+                                    pickResult.pickedMesh.position.x = base + difference * 3;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(timeOffset * 3);
+                                    } else {
+                                        lane2Offset.push(timeOffset * 3);
+                                    }
+                                } else if (pickResult.pickedMesh.position.x < compBase + difference * 4) {
+                                    pickResult.pickedMesh.position.x = base + difference * 4;
+                                    if (laneBoxesI == 0) {
+                                        lane1Offset.push(timeOffset * 4);
+                                    } else {
+                                        lane2Offset.push(timeOffset * 4);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        //console.log("Picked the daw file while in VR Mode!");
+                        //console.log("parent is for the dawfile is ", pickResult.pickedMesh.parent);
+                        vrHelper.currentVRCamera = camera;
+                        console.log("VR camera: ", vrHelper.currentVRCamera);
+                        pickResult.pickedMesh.setParent(vrHelper.currentVRCamera);
+                    }
+
+                }
+                //WAS IF BEFORE
+                else if (pickResult.pickedMesh.parent == camera) {
                     pickResult.pickedMesh.setParent(null);
                     for( var laneBoxesI = 0; laneBoxesI < laneBoxes.length; laneBoxesI++) {
                         if(pickResult.pickedMesh.intersectsMesh(laneBoxes[laneBoxesI])) {
@@ -702,6 +768,7 @@ var createScene = async function () {
                 panel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
                 samples = await displaySamples(panel, "public");
                 panel.options.isVisible = !panel.options.isVisible;
+                console.log("THIS IS THE CURRENT VR CAMERA: ", vrHelper.currentVRCamera.name);
             }
             if (pickResult.pickedMesh.name == "Piano") {
                 console.log(`opening ${username}'s library`);
