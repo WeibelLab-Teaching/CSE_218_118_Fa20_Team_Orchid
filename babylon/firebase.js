@@ -1,43 +1,39 @@
-var uploadAudio = function () {
-  const storageRef = firebase.storage().ref();
+var uploadAudio = function (username) {
+    var fileButton = document.getElementById('fileButton');
+    var file = fileButton.files[0];
+    console.log("uploading with username: ", username);
+    console.log(file);
+    var storageRef = firebase.storage().ref(file.name);
+    var task = storageRef.put(file);
+    task.on('state_changed', function progress(snapshot) {
+        var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    }, function error(err) {
+        console.log(error.code);
+    }, function complete() {
+        // Upload completed successfully, now we can get the download URL
+        task.snapshot.ref.getDownloadURL()
+            .then(function (url) {
+                downloadURL = url;
 
-  var uploader = document.getElementById('uploader');
-  var fileButton = document.getElementById('fileButton');
-  fileButton.addEventListener('change', function (e) {
-      var file = e.target.files[0];
-      var storageRef = firebase.storage().ref(file.name);
-      var task = storageRef.put(file);
-      task.on('state_changed', function progress(snapshot) {
-          var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          uploader.value = percentage;
-      }, function error(err) {
-          console.log(error.code);
-      }, function complete() {
-          // Upload completed successfully, now we can get the download URL
-          task.snapshot.ref.getDownloadURL()
-              .then(function (url) {
-                  downloadURL = url;
+                const newMusic = {
+                    userHandle: username ? username : "public",
+                    name: file.name,
+                    createdAt: new Date().toISOString(),
+                    audioUrl: downloadURL
+                };
 
-                  const newMusic = {
-                      userHandle: "public",
-                      name: file.name,
-                      createdAt: new Date().toISOString(),
-                      audioUrl: downloadURL
-                  };
+                db.collection('musics')
+                    .add(newMusic)
+                    .then(doc => { })
+                    .catch(err => {
+                        res.status(500).json({ error: `something went wrong` });
+                        console.error(err);
+                    })
 
-                  db.collection('musics')
-                      .add(newMusic)
-                      .then(doc => { })
-                      .catch(err => {
-                          res.status(500).json({ error: `something went wrong` });
-                          console.error(err);
-                      })
-
-                  console.log('File available at', downloadURL);
-              });
-      });
-  });  
-}
+                console.log('File available at', downloadURL);
+            });
+    });
+};  
 
 var loadMusic = async function (fileName, scene, soundReady, mesh) {
     const storageRef = firebase.storage().ref();
@@ -61,20 +57,22 @@ var loadMusic = async function (fileName, scene, soundReady, mesh) {
     });
   }
 
-var displaySamples = async function (Panel) {
+var displaySamples = async function (Panel, username) {
   return db
       .collection('musics')
       .get()
       .then((data) => {
           let samples = [];
           data.forEach((doc) => {
-              samples.push({
-                  userHandle: doc.data().userHandle,
-                  name: doc.data().name,
-                  createdAt: doc.data().createdAt,
-                  audioUrl: doc.data().audioUrl
-              });
-              Panel.addOption(doc.data().name);
+              if(doc.data().userHandle === username){
+                samples.push({
+                    userHandle: doc.data().userHandle,
+                    name: doc.data().name,
+                    createdAt: doc.data().createdAt,
+                    audioUrl: doc.data().audioUrl
+                });
+                Panel.addOption(doc.data().name);
+              }
           });
           return samples;
       })
@@ -90,6 +88,50 @@ function openForm() {
   
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
+}
+
+class usernameButton
+{
+    constructor(scene, advancedTexture, height, width, username)
+	{
+        // Members
+        this.username = username;
+        this.height = height;
+        this.width = width;
+        this.color = "black";
+        this.background = "white";
+        this.scene = scene;
+        this.advancedTexture = advancedTexture;
+
+        // Container
+		this.container = new BABYLON.GUI.Container();
+        this.container.width = this.width;
+        this.container.top = "15px";
+        this.container.left = "5px";
+        this.container.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.container.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+        this.container.isHitTestVisible = false;
+    
+
+        // Options panel
+        this.options = new BABYLON.GUI.StackPanel();
+        this.options.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+        this.options.isVisible = true;
+        this.options.isVertical = true;
+
+        this.advancedTexture.addControl(this.container);
+        this.container.addControl(this.options);       
+
+        this.button = BABYLON.GUI.Button.CreateSimpleButton('name', `User: ${username}`);
+        this.button.height = this.height;
+        this.button.width = this.width;
+        this.button.background = this.background;
+        this.button.color = this.color;
+        this.button.alpha = 1.0;
+        this.button.cornerRadius = 10;
+        this.options.addControl(this.button);
+
+    }
 }
 
 class Panel
