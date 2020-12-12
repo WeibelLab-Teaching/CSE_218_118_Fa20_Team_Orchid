@@ -9,5 +9,3 @@ tags: [babylon]
 
 <button onclick="openFullscreen();">Open in Fullscreen Mode</button>
 {% include_relative index.html %}
-
-{% include footer.html %}

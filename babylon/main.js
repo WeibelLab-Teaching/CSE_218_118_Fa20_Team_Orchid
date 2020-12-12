@@ -1,7 +1,12 @@
-var username = "default";
-
+var username = "NONE";
+var scene;
+var advancedTexture;
+var userbutton;
 var setUsername = function (text) {
     username = text;
+    if(scene && advancedTexture) {
+        userbutton = new usernameButton(scene, advancedTexture, "50px", "200px", username);
+    }
     console.log(username);
     closeForm();
 }
@@ -9,7 +14,7 @@ var setUsername = function (text) {
 var canvas = document.getElementById("renderCanvas");
 
 var createScene = async function () {
-    var scene = new BABYLON.Scene(engine);
+    scene = new BABYLON.Scene(engine);
 
     var dawFiles = [];
     var lanes = [];
@@ -517,11 +522,15 @@ var createScene = async function () {
 
     });
 
-    var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     var panel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
-    samples = await displaySamples(panel);
-    scene.onPointerDown = function (evt, pickResult) {
+    samples = await displaySamples(panel, "public");
+    var userPanel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
+    userSamples = await displaySamples(userPanel, username);
 
+
+    scene.onPointerDown = async function (evt, pickResult) {
+        console.log("clicked on: ", pickResult.pickedMesh.name);
         if (pickResult.hit) {
             if (pickResult.pickedMesh.name == "pickupSphere") {
                 if (pickupSphere.parent == camera) {
@@ -743,6 +752,7 @@ var createScene = async function () {
             // click on nothing to close the library panel
             else {
                 panel.options.isVisible = false;
+                userPanel.options.isVisible = false;
             }
             if (pickResult.pickedMesh.name == "daw") {
                 console.log("daw is clicked");
@@ -754,12 +764,23 @@ var createScene = async function () {
             }
             // click on the desk to show the music library
             if (pickResult.pickedMesh.name == "Desk_Desk_0") {
+                console.log("opening default library");
+                panel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
+                samples = await displaySamples(panel, "public");
                 panel.options.isVisible = !panel.options.isVisible;
                 console.log("THIS IS THE CURRENT VR CAMERA: ", vrHelper.currentVRCamera.name);
+            }
+            if (pickResult.pickedMesh.name == "Gitarre higher test15_01 - Default_0") {
+                console.log(`opening ${username}'s library`);
+                userPanel = new Panel(scene, advancedTexture, "80px", "400px", dawFiles, music, soundReady);
+                userSamples = await displaySamples(userPanel, username);
+                userPanel.options.isVisible = !userPanel.options.isVisible;
             }
             
         }
     }
+
+    userbutton = new usernameButton(scene, advancedTexture, "50px", "200px", username);
     return scene;
 };
 
@@ -782,6 +803,10 @@ var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, ste
     });
 
     // test upload 
-    uploadAudio();
+    var uploader = document.getElementById('uploader');
+    var fileButton = document.getElementById('fileButton');
+    fileButton.addEventListener('change', function(){uploadAudio(username)});
+    // fileInput.onchange
+    // uploadAudio(username);
 
 })();
