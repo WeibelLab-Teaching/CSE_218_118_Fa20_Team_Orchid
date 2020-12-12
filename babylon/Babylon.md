@@ -3,13 +3,11 @@ layout: default
 title: Orchid VR Space
 tags: [babylon]
 ---
+
 {% include webRTC.html %}
+
+
+<button onclick="openFullscreen();">Open in Fullscreen Mode</button>
 {% include_relative index.html %}
-<style>
-/* force scrollbar */
-html { overflow-y: scroll; }
 
-
-article {padding:2%;}
-
-</style>
+{% include footer.html %}
