@@ -35,7 +35,7 @@ var uploadAudio = function (username) {
     });
 };  
 
-var loadMusic = async function (fileName, scene, soundReady, mesh) {
+var loadMusic = async function (fileName, scene, mesh) {
     const storageRef = firebase.storage().ref();
     return storageRef.child(fileName).getDownloadURL().then(url => {
         return axios({
@@ -46,8 +46,8 @@ var loadMusic = async function (fileName, scene, soundReady, mesh) {
     }).then(blob => {
         return blob.data.arrayBuffer();
     }).then(buffer => {
-        music = new BABYLON.Sound(fileName, buffer, scene, soundReady, { 
-            loop: true,
+        music = new BABYLON.Sound(fileName, buffer, scene, null, { 
+            loop: false,
         });
         music.attachToMesh(mesh);
         console.log(music)
@@ -136,7 +136,7 @@ class usernameButton
 
 class Panel
 {
-	constructor(scene, advancedTexture, height, width, dawFiles, music, soundReady)
+	constructor(scene, advancedTexture, height, width, dawFiles, music)
 	{
 		// Members
         this.height = height;
@@ -147,7 +147,6 @@ class Panel
         this.advancedTexture = advancedTexture;
         this.dawFiles = dawFiles;
         this.music = music;
-        this.soundReady = soundReady;
 
         // Container
 		this.container = new BABYLON.GUI.Container();
@@ -221,12 +220,10 @@ class Panel
             waveformMaterial.specularColor = new BABYLON.Color3(0, 0, 0.1);
             waveformMaterial.backFaceCulling = false;
             obj.material = waveformMaterial;
-            var audio = await loadMusic(text, this.scene, this.soundReady, obj);
+            var audio = await loadMusic(text, this.scene, obj);
             audio.setVolume(0.5);
             this.dawFiles.push(obj);
             this.music.push(audio);
-            console.log(this.music);
-            console.log(this.dawFiles);
         });
         this.options.addControl(button);
     }
