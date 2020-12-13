@@ -75,10 +75,10 @@ var createScene = async function () {
     lane2Vol = 0.5;
     lane3Vol = 0.5;
     lane4Vol = 0.5;
-    function adjustVolume(upOrDown) {
+    function adjustVolume(number, upOrDown) {
         console.log("adjusting volume of lane ", lanePlaying);
         for (var fileIdx = 0; fileIdx < dawFiles.length; fileIdx++) {
-            if ((lanePlaying == 1 || lanePlaying == 0) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
+            if (number == 1 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
                 console.log("lane 1 volume currently at ", lane1Vol);
                 if (upOrDown == 1) {
                     if (lane1Vol >= 1.0) {
@@ -104,7 +104,7 @@ var createScene = async function () {
                 }
 
             }
-            if ((lanePlaying == 2 || lanePlaying == 0) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
+            if (number == 2 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
                 console.log("lane 2 volume currently at ", lane2Vol);
                 if (upOrDown == 1) {
                     if (lane2Vol >= 1.0) {
@@ -129,7 +129,7 @@ var createScene = async function () {
                     }
                 }
             }
-            if ((lanePlaying == 3 || lanePlaying == 0) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane3) {
+            if (number == 3 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane3) {
                 console.log("lane 3 volume currently at ", lane3Vol);
                 if (upOrDown == 1) {
                     if (lane3Vol >= 1.0) {
@@ -156,7 +156,7 @@ var createScene = async function () {
                     }
                 }
             }
-            if ((lanePlaying == 4 || lanePlaying == 0) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
+            if (number == 4 && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
                 console.log("lane 4 volume currently at ", lane4Vol);
                 if (upOrDown == 1) {
                     if (lane4Vol >= 1.0) {
@@ -221,6 +221,10 @@ var createScene = async function () {
             lane1Pause.setEnabled(false);
             lane2Play.setEnabled(true);
             lane2Pause.setEnabled(false);
+            lane3Play.setEnabled(true);
+            lane3Pause.setEnabled(false);
+            lane4Play.setEnabled(true);
+            lane4Pause.setEnabled(false);
         }
         else {
             console.log("Sound is being played");
@@ -237,9 +241,9 @@ var createScene = async function () {
                     music[fileIdx].play(lane2Offset[fileIdx] * timeSignature);
                 }
                 if ((lanePlaying == 0 || lanePlaying == 3) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
-                    console.log("playing in lane 4 with volume ", lane4Vol);
-                    music[fileIdx].setVolume(lane4Vol);
-                    music[fileIdx].play(lane4Offset[fileIdx] * timeSignature);
+                    console.log("playing in lane 3 with volume ", lane3Vol);
+                    music[fileIdx].setVolume(lane3Vol);
+                    music[fileIdx].play(lane3Offset[fileIdx] * timeSignature);
                 }
                 if ((lanePlaying == 0 || lanePlaying == 4) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
                     console.log("playing in lane 4 with volume ", lane4Vol);
@@ -254,6 +258,10 @@ var createScene = async function () {
             lane1Pause.setEnabled(true);
             lane2Play.setEnabled(false);
             lane2Pause.setEnabled(true);
+            lane3Play.setEnabled(false);
+            lane3Pause.setEnabled(true);
+            lane4Play.setEnabled(false);
+            lane4Pause.setEnabled(true);
         }
     }
 
@@ -438,7 +446,7 @@ var createScene = async function () {
     p2.material = new BABYLON.StandardMaterial("Mat", scene);
 
     var mainPause = BABYLON.Mesh.MergeMeshes([p1, p2]);
-    mainPause.position = new BABYLON.Vector3(-.1, -2, -11);
+    mainPause.position = new BABYLON.Vector3(0, -1.85, -11);
     mainPause.material = laneMaterial;
     mainPause.name = "main pause";
     mainPause.setEnabled(false);
@@ -792,16 +800,16 @@ var createScene = async function () {
                                     for (var idxOfFile = 0; idxOfFile < dawFiles.length; idxOfFile++) {
                                         if (dawFiles[idxOfFile].name == pickResult.pickedMesh.name) {
                                             if (laneBoxesI == 0) {
-                                                lane1Offset[numToString] = timeOffset * n;
+                                                lane1Offset[idxOfFile] = timeOffset * n;
                                             }
                                             else if (laneBoxesI == 1) {
-                                                lane2Offset[numToString] = timeOffset * n;
+                                                lane2Offset[idxOfFile] = timeOffset * n;
                                             }
                                             else if (laneBoxesI == 2) {
-                                                lane3Offset[numToString] = timeOffset * n;
+                                                lane3Offset[idxOfFile] = timeOffset * n;
                                             }
                                             else {
-                                                lane4Offset[numToString] = (timeOffset * n);
+                                                lane4Offset[idxOfFile] = (timeOffset * n);
                                             }
                                             break;
                                         }
@@ -809,7 +817,7 @@ var createScene = async function () {
                                     break;
                                 }
                             }
-                            console.log("lane1Offset is: ", lane1Offset, "\nlane2Offset is: ", lane2Offset, "\nand laneBoxesI is", laneBoxesI);
+                            console.log("lane1Offset is: ", lane1Offset, "\nlane2Offset is: ", lane2Offset, "\nlane3Offset is: ", lane3Offset, "\nlane4Offset is: ", lane4Offset, "\nand laneBoxesI is", laneBoxesI);
                         }
                     }
                 } else {
