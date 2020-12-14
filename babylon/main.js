@@ -134,7 +134,6 @@ var createScene = async function () {
                 if (upOrDown == 1) {
                     if (lane3Vol >= 1.0) {
                         console.log("max volume at 1");
-                        queue.play();
                         break;
                     }
                     lane3Vol += 0.1;
@@ -146,7 +145,6 @@ var createScene = async function () {
                         console.log("min volume at 0");
                         lane3Vol = 0;
                         music[fileIdx].setVolume(lane3Vol);
-                        queue.play();
                         break;
                     }
                     else {
@@ -161,7 +159,6 @@ var createScene = async function () {
                 if (upOrDown == 1) {
                     if (lane4Vol >= 1.0) {
                         console.log("max volume at 1");
-                        queue.play();
                         break;
                     }
                     lane4Vol += 0.1;
@@ -173,7 +170,6 @@ var createScene = async function () {
                         console.log("min volume at 0");
                         lane4Vol = 0;
                         music[fileIdx].setVolume(lane4Vol);
-                        queue.play();
                         break;
                     }
                     else {
@@ -240,7 +236,7 @@ var createScene = async function () {
                     music[fileIdx].setVolume(lane2Vol);
                     music[fileIdx].play(lane2Offset[fileIdx] * timeSignature);
                 }
-                if ((lanePlaying == 0 || lanePlaying == 3) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
+                if ((lanePlaying == 0 || lanePlaying == 3) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane3) {
                     console.log("playing in lane 3 with volume ", lane3Vol);
                     music[fileIdx].setVolume(lane3Vol);
                     music[fileIdx].play(lane3Offset[fileIdx] * timeSignature);
@@ -274,7 +270,7 @@ var createScene = async function () {
     });
 
     var desk;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "computer_desk.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "computer_desk.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
         desk = newMeshes[0];
         console.log("Loaded Mesh");
@@ -292,7 +288,7 @@ var createScene = async function () {
 
     });
     var guitar;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "guitar.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "guitar.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
         guitar = newMeshes[0];
         console.log("Loaded guitar");
@@ -307,8 +303,8 @@ var createScene = async function () {
         });
 
     });
-    /*var amp;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "amp.glb", scene, function (newMeshes) {
+    var amp;
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "amp.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
         amp = newMeshes[0];
         console.log("Loaded amp");
@@ -322,9 +318,9 @@ var createScene = async function () {
     
         });
 
-    });*/
+    });
     var piano;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "piano.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "piano.glb", scene, function (newMeshes) {
         piano = newMeshes[0];
         console.log("Loaded Mesh2");
         piano.scaling.x = 3.5;
@@ -340,7 +336,7 @@ var createScene = async function () {
 
     });
     var drums;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "drums.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "drums.glb", scene, function (newMeshes) {
         drums = newMeshes[0];
         console.log("Loaded drums");
         drums.scaling = new BABYLON.Vector3(.0017, .0017, .0017)
@@ -355,7 +351,7 @@ var createScene = async function () {
 
     });
     var couch;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "couch.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "couch.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
         couch = newMeshes[0];
         console.log("Loaded Mesh2");
@@ -373,7 +369,7 @@ var createScene = async function () {
 
     });
     var table;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "table.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "table.glb", scene, function (newMeshes) {
         //scene.createDefaultCameraOrLight(true, true, true);
         table = newMeshes[0];
         console.log("Loaded table");
@@ -389,7 +385,7 @@ var createScene = async function () {
 
     });
     var light;
-    meshisin = BABYLON.SceneLoader.ImportMesh("", "./", "ceiling_light.glb", scene, function (newMeshes) {
+    meshisin = BABYLON.SceneLoader.ImportMesh("", "assets/", "ceiling_light.glb", scene, function (newMeshes) {
         light = newMeshes[0];
         console.log("Loaded Mesh2");
         light.scaling.x = .002;
