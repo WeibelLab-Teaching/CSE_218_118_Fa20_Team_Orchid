@@ -6,7 +6,7 @@ Open up Git
 
 $ gem install bundler jekyll
 
-$ bundle exec jekyll serve (when in main folder of project)
+$ bundle install (only if you haven’t yet installed bundle) 
 
 $ bundle exec jekyll serve (when in the main folder of project)
 
