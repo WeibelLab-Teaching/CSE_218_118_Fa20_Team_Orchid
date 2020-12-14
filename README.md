@@ -3,8 +3,11 @@
 ## Instructions to run:
 
 Open up Git
+
 $ gem install bundler jekyll
+
 $ bundle exec jekyll serve (when in main folder of project)
+
 $ bundle exec jekyll serve (when in the main folder of project)
 
 It should be running in your localhost 127.0.0.1:4000
