@@ -1,5 +1,7 @@
 # CSE 118/218 Team Orchid
 
+<img src="https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/assets/img/Orchid.png" width="300" height="300" align="right">
+
 ## Instructions to run:
 
 Open up Git
@@ -53,10 +55,12 @@ If users want to use their own samples, all they have to do is login and upload 
 (explanation WIP) 
 
 ## How users can get started with the project 
-(explanation WIP) 
+The main codebase of Orchid is located within the babylon folder, of which the main files are babylon > babylonjs.html, babylon > main.js, and babylon > firebase.js. These files reference glb files that import custom meshes into the scene and other images. 
+
+The remainder of the codebase corresponds to the rest of the Orchid website, which is extensible for future additions such as musical education articles. 
 
 ## Who maintains and contributed to the project? -- **Team Orchid** 
-* Caroline Sih — Computer Graphics Developer/Audio Engineers 
+* Caroline Sih — Computer Graphics Developer/Audio Engineer. Caroline is a 4th year BS/MS undergraduate with interests in human-computing interaction and computer architecture. 
 * John Duong — Front-end Developer 
 * Luis F.C. — Website Developer 
 * Chin Lee — Back-end Developer 
@@ -67,7 +71,7 @@ When actively working on the project, our team had set meeting times of Sundays 
 To keep track of all of our tasks and problems, we used ZenHub. ZenHub allowed us to organize each week's tasks, as well as keep us on track and connected to our GitHub repository. 
 
 ## Help? 
-(wip) 
+Please contact csih@ucsd.edu if you have any questions pertaining to the upkeep of the project. We’re happy to help! 
 
 ## Videos about the project (agile presentations, main presentations, demos) 
 * Initial Project Presentation: https://youtu.be/W6BH3d-TB9g 
