@@ -182,6 +182,7 @@ var createScene = async function () {
         }
     }
 
+ 
     // Indicates time signature of measures (currently 3 beats per measure)
     var timeSignature = 3;
     function audioToggle() {
@@ -260,6 +261,49 @@ var createScene = async function () {
             lane4Pause.setEnabled(true);
         }
     }
+       // Resets tracks
+       function resetTracks(){ 
+        for (var fileIdx = 0; fileIdx < dawFiles.length; fileIdx++) {
+
+            if ((lanePlaying == 0 || lanePlaying == 1) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane1) {
+                music[fileIdx].pause();
+                music[fileIdx].play(lane1Offset[fileIdx] * timeSignature);
+                music[fileIdx].stop()
+                music[fileIdx].setVolume(lane1Vol);
+            }
+            if ((lanePlaying == 0 || lanePlaying == 2) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane2) {
+                music[fileIdx].pause();
+                music[fileIdx].play(lane2Offset[fileIdx] * timeSignature);
+                music[fileIdx].stop()
+                music[fileIdx].setVolume(lane2Vol);
+            }
+            if ((lanePlaying == 0 || lanePlaying == 3) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane3) {
+                music[fileIdx].pause();
+                music[fileIdx].play(lane3Offset[fileIdx] * timeSignature);
+                music[fileIdx].stop()
+                music[fileIdx].setVolume(lane3Vol);
+            }
+            if ((lanePlaying == 0 || lanePlaying == 4) && typeof dawFiles[fileIdx] != 'undefined' && typeof dawFiles[fileIdx].parent !== 'undefined' && dawFiles[fileIdx].parent == lane4) {
+                music[fileIdx].pause();
+                music[fileIdx].play(lane4Offset[fileIdx] * timeSignature);
+                music[fileIdx].stop()
+                music[fileIdx].setVolume(lane4Vol);
+            }
+            
+        }
+        isMusicPlaying = false;
+        mainPlay.setEnabled(true);
+        mainPause.setEnabled(false);
+        lane1Play.setEnabled(true);
+        lane1Pause.setEnabled(false);
+        lane2Play.setEnabled(true);
+        lane2Pause.setEnabled(false);
+        lane3Play.setEnabled(true);
+        lane3Pause.setEnabled(false);
+        lane4Play.setEnabled(true);
+        lane4Pause.setEnabled(false);
+    }
+
 
     // Audio Toggle on Spacebar (Convert later to WebVR button when interacting with object)
     window.addEventListener("keydown", function (evt) {
@@ -427,6 +471,11 @@ var createScene = async function () {
     laneMaterial.ambientColor = new BABYLON.Color3(0.2, 0.2, 0.2);
     laneMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
     laneMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
+
+    //Stop button
+    var stop = BABYLON.MeshBuilder.CreatePlane("stop button", { width: .4, height: .4 }, scene);
+    stop.position = new BABYLON.Vector3(2, -1.85, -11);
+    stop.material = new BABYLON.StandardMaterial("Mat", scene);
 
     // Play/Pause variables 
     var mainPlay = BABYLON.MeshBuilder.CreateDisc("main play", { tessellation: 3, radius: .3 }, scene);
@@ -832,6 +881,13 @@ var createScene = async function () {
                 console.log("main pause has been clicked");
                 lanePlaying = 0;
                 audioToggle();
+            }
+            // Stop button
+            else if (pickResult.pickedMesh.name == "stop button"){
+                console.log("Stop button has been clicked");
+                resetTracks();
+
+
             }
             // Lane Play/Pause
             else if (pickResult.pickedMesh.name == "lane1 play") {
