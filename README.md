@@ -51,10 +51,10 @@ If users want to use their own samples, all they have to do is login and upload 
 
 **Collaboration and Relaxation** - Be able to get the opinion of others by hopping on a video call together and ultimately relax in a new musical experience! To achieve this goal, we implemented a video/voice chat feature with WebRTC that users can use while in the space! In this screenshot, one of our team members actually tested the app with two of his good friends who live hundreds of miles away. They played around with the application for a whole hour while just talking with each other, and listening to each other’s audio mixes. 
 
-**Insert System Architecture pic** 
-(explanation WIP) 
+![system](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/systems.png?raw=true)
+**For our system architecture,** the web application his hosted through jekyll and a web domain. It's displayed on the front-end to the users through babylon.js, JavaScript, and HTML5. The local files system provides music samples and assets which are loaded with the front-end through babylon and JavaScript. The webserver portion is further built on WebXR and babylon.js for virtual reality support and WebRTC support for user intractions by video chatting while collaborating in our virtual space. The web server communicates with our Firebase database that stores audio files and login credentials for each user. 
 
-## How users can get started with the project 
+## How can users get started with the project? 
 The main codebase of Orchid is located within the babylon folder, of which the main files are babylon > babylonjs.html, babylon > main.js, and babylon > firebase.js. These files reference glb files that import custom meshes into the scene and other images. 
 
 The remainder of the codebase corresponds to the rest of the Orchid website, which is extensible for future additions such as musical education articles. 
@@ -64,7 +64,7 @@ The remainder of the codebase corresponds to the rest of the Orchid website, whi
 * John Duong — Front-end Developer 
 * Luis F.C. — Website Developer 
 * Chin Lee — Back-end Developer 
-* Todd Nguyen — Design, QA, and Video Editor 
+* Todd Nguyen — Design, QA, and Video Editor. Todd is a 4th year Cognitive and Behavioral Neuroscience major interested in product management and front-end development! In his free time, he enjoys test cooking to plan his dream menu and ultimately open up a restaurant with his brothers in his mid 30s.  
 
 When actively working on the project, our team had set meeting times of Sundays 4-7pm, Mondays 4-5pm, Thursdays during class time when available, and Fridays 3-4pm. The Sunday meetings were primarily working sessions where we can trade ideas and work towards any larger goals assigned that week. During the last few weeks of the project, we met nearly every day at around 4 PM for daily work sessions. 
 
