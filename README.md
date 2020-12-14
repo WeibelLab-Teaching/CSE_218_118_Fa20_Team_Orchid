@@ -28,19 +28,24 @@ With COVID-19 and remote learning in place, this course had to be done completel
 
 ## What does the project do?
 
-**Insert Image of Storyboard** 
+![storyboard](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/story.JPG?raw=true)
 
 Coming into ideating and creating this app, we utilized this story board to think about the stories we wanted to make with our product. We wanted to make sure that the stories that were made could easily be made. This calls for a general idea of easily accessible content and simple user interface which can be seen in our application! 
 
-**Insert first features img** 
+![DAWwaves](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/board.png?raw=true)
 
 **Visualization and Ideation**  - As a team, we really wanted our users to be able to literally play around with their music in our space. As seen in the screenshot above, there is a workstation that displays waveforms with a simple user interface which allows users to test and play around with different mixes. With our digital audio workstation, or DAW, users can equip up to five samples onto the lanes of our DAW. When snapped into their respective lanes, each sample’s audio can be put at an offset corresponding to BPM and have their respective volumes adjusted. From there, a user can play a single lane or play them both with the main play/pause button located at the bottom of the DAW. 
 
-**Insert second features img** 
+
+![upload1](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/upload1.png?raw=true)
 
 **Upload Music Samples and Share** - Upload your own music samples or feel free to utilize samples from other users in the database! The upload button is in the top right hander corner where users can upload their own samples directly from their local computer. If interested users can also click on the desk in the room which will show all the samples that are in Orchid’s database. Once a sample is chosen, it gets visualized into a waveform that users can connect to their own workstation to play around with! 
 
-**Insert third features img** 
+![upload2](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/upload2.png?raw=true)
+
+If users want to use their own samples, all they have to do is login and upload music from their account! This allows them to have a personal sample library which is connected to the guitar. 
+
+![collab](https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/collab.png?raw=true)
 
 **Collaboration and Relaxation** - Be able to get the opinion of others by hopping on a video call together and ultimately relax in a new musical experience! To achieve this goal, we implemented a video/voice chat feature with WebRTC that users can use while in the space! In this screenshot, one of our team members actually tested the app with two of his good friends who live hundreds of miles away. They played around with the application for a whole hour while just talking with each other, and listening to each other’s audio mixes. 
 
