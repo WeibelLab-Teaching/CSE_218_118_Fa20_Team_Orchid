@@ -61,7 +61,7 @@ The remainder of the codebase corresponds to the rest of the Orchid website, whi
 
 ## Who maintains and contributed to the project? -- **Team Orchid** 
 * **Caroline Sih — Computer Graphics Developer/Audio Engineer.** Caroline is a 4th year BS/MS undergraduate with interests in human-computing interaction and computer architecture. 
-* **John Duong — Front-end Developer.** 
+* **John Duong — Front-end Developer.** John is a 4th year BS student majoring in Computer Engineering with interests in robotics.
 * **Luis F.C. — Website Developer.** Luis is a 4th year Cognitive Design and Interaction student with interests in Digital Design. 
 * **Chin Lee — Back-end Developer.** Chin is a 1st year MS student majoring in Machine Learning & Data Science with interest in full stack development.
 * **Todd Nguyen — Design, QA, and Video Editor.** Todd is a 4th year Cognitive and Behavioral Neuroscience major interested in product management and front-end development! In his free time, he enjoys test cooking to plan his dream menu and ultimately open up a restaurant with his brothers in his mid 30s.  
