@@ -61,9 +61,9 @@ The remainder of the codebase corresponds to the rest of the Orchid website, whi
 
 ## Who maintains and contributed to the project? -- **Team Orchid** 
 * **Caroline Sih — Computer Graphics Developer/Audio Engineer.** Caroline is a 4th year BS/MS undergraduate with interests in human-computing interaction and computer architecture. 
-* **John Duong — Front-end Developer.** 
-* **Luis F.C. — Website Developer.** 
-* **Chin Lee — Back-end Developer.** 
+* **John Duong — Front-end Developer.** John is a 4th year BS student majoring in Computer Engineering with interests in robotics.
+* **Luis F.C. — Website Developer.** Luis is a 4th year Cognitive Design and Interaction student with interests in Digital Design. 
+* **Chin Lee — Back-end Developer.** Chin is a 1st year MS student majoring in Machine Learning & Data Science with interest in full stack development.
 * **Todd Nguyen — Design, QA, and Video Editor.** Todd is a 4th year Cognitive and Behavioral Neuroscience major interested in product management and front-end development! In his free time, he enjoys test cooking to plan his dream menu and ultimately open up a restaurant with his brothers in his mid 30s.  
 
 When actively working on the project, our team had set meeting times of Sundays 4-7pm, Mondays 4-5pm, Thursdays during class time when available, and Fridays 3-4pm. The Sunday meetings were primarily working sessions where we can trade ideas and work towards any larger goals assigned that week. During the last few weeks of the project, we met nearly every day at around 4 PM for daily work sessions. 
