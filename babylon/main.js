@@ -472,15 +472,16 @@ var createScene = async function () {
     laneMaterial.diffuseColor = new BABYLON.Color3(0.2, 0.2, 0.2);
     laneMaterial.specularColor = new BABYLON.Color3(0.2, 0.2, 0.2);
 
+    
     //Stop button
-    var stop = BABYLON.MeshBuilder.CreatePlane("stop button", { width: .4, height: .4 }, scene);
-    stop.position = new BABYLON.Vector3(2, -1.85, -11);
+    var stop = BABYLON.MeshBuilder.CreatePlane("stop button", { width: .4, height: .5 }, scene);
+    stop.position = new BABYLON.Vector3(.5, -1.85, -11);
     stop.material = new BABYLON.StandardMaterial("Mat", scene);
 
     // Play/Pause variables 
     var mainPlay = BABYLON.MeshBuilder.CreateDisc("main play", { tessellation: 3, radius: .3 }, scene);
-    mainPlay.position = new BABYLON.Vector3(0, -1.85, -11);
-    mainPlay.material = laneMaterial;
+    mainPlay.position = new BABYLON.Vector3(-.5, -1.85, -11);
+    mainPlay.material = new BABYLON.StandardMaterial("Mat", scene);
 
     var p1 = BABYLON.MeshBuilder.CreatePlane(name, { width: .2, height: .5 }, scene);
     p1.position = new BABYLON.Vector3(0, 0, 0);
@@ -491,15 +492,15 @@ var createScene = async function () {
     p2.material = new BABYLON.StandardMaterial("Mat", scene);
 
     var mainPause = BABYLON.Mesh.MergeMeshes([p1, p2]);
-    mainPause.position = new BABYLON.Vector3(0, -1.85, -11);
-    mainPause.material = laneMaterial;
+    mainPause.position = new BABYLON.Vector3(-.5, -1.85, -11);
+    mainPause.material = new BABYLON.StandardMaterial("Mat", scene);
     mainPause.name = "main pause";
     mainPause.setEnabled(false);
 
     var lane1Play = BABYLON.MeshBuilder.CreateDisc("lane1 play", { tessellation: 3, radius: .2 }, scene);
     //lane1Play.position = new BABYLON.Vector3(-4.2, .2, -4.4);
     lane1Play.position = new BABYLON.Vector3(-6, 2.35, -11);
-    lane1Play.material = laneMaterial;
+    lane1Play.material = new BABYLON.StandardMaterial("Mat", scene);
     lane1Play.setEnabled(false);
 
     var pl1 = BABYLON.MeshBuilder.CreatePlane(name, { width: .17, height: .37 }, scene);
@@ -512,14 +513,14 @@ var createScene = async function () {
 
     var lane1Pause = BABYLON.Mesh.MergeMeshes([pl1, pl2]);
     lane1Pause.position = new BABYLON.Vector3(-6.1, 2.35, -11);
-    lane1Pause.material = laneMaterial;
+    lane1Pause.material = new BABYLON.StandardMaterial("Mat", scene);
     lane1Pause.name = "lane1 pause";
     lane1Pause.setEnabled(false);
 
     var lane2Play = BABYLON.MeshBuilder.CreateDisc("lane2 play", { tessellation: 3, radius: .2 }, scene);
     //lane2Play.position = new BABYLON.Vector3(-4.2, -1.4, -4.4);
     lane2Play.position = new BABYLON.Vector3(-6, 1.35, -11);
-    lane2Play.material = laneMaterial;
+    lane2Play.material = new BABYLON.StandardMaterial("Mat", scene);
     lane2Play.setEnabled(false);
 
     var pll1 = BABYLON.MeshBuilder.CreatePlane(name, { width: .17, height: .37 }, scene);
@@ -532,14 +533,14 @@ var createScene = async function () {
 
     var lane2Pause = BABYLON.Mesh.MergeMeshes([pll1, pll2]);
     lane2Pause.position = new BABYLON.Vector3(-6.1, 1.35, -11);
-    lane2Pause.material = laneMaterial;
+    lane2Pause.material = new BABYLON.StandardMaterial("Mat", scene);
     lane2Pause.name = "lane2 pause"
     lane2Pause.setEnabled(false);
 
     //lane3
     var lane3Play = BABYLON.MeshBuilder.CreateDisc("lane3 play", { tessellation: 3, radius: .2 }, scene);
     lane3Play.position = new BABYLON.Vector3(-6, 0.3, -11);
-    lane3Play.material = laneMaterial;
+    lane3Play.material = new BABYLON.StandardMaterial("Mat", scene);
     lane3Play.setEnabled(false);
 
     var plll1 = BABYLON.MeshBuilder.CreatePlane(name, { width: .17, height: .37 }, scene);
@@ -552,13 +553,13 @@ var createScene = async function () {
 
     var lane3Pause = BABYLON.Mesh.MergeMeshes([plll1, plll2]);
     lane3Pause.position = new BABYLON.Vector3(-6.1, 0.3, -11);
-    lane3Pause.material = laneMaterial;
+    lane3Pause.material = new BABYLON.StandardMaterial("Mat", scene);
     lane3Pause.name = "lane3 pause"
     lane3Pause.setEnabled(false);
     //lane4
     var lane4Play = BABYLON.MeshBuilder.CreateDisc("lane4 play", { tessellation: 3, radius: .2 }, scene);
     lane4Play.position = new BABYLON.Vector3(-6, -0.7, -11);
-    lane4Play.material = laneMaterial;
+    lane4Play.material = new BABYLON.StandardMaterial("Mat", scene);
     lane4Play.setEnabled(false);
 
     var pllll1 = BABYLON.MeshBuilder.CreatePlane(name, { width: .17, height: .37 }, scene);
@@ -571,7 +572,7 @@ var createScene = async function () {
 
     var lane4Pause = BABYLON.Mesh.MergeMeshes([pllll1, pllll2]);
     lane4Pause.position = new BABYLON.Vector3(-6.1, -0.7, -11);
-    lane4Pause.material = laneMaterial;
+    lane4Pause.material = new BABYLON.StandardMaterial("Mat", scene);
     lane4Pause.name = "lane4 pause"
     lane4Pause.setEnabled(false);
 
