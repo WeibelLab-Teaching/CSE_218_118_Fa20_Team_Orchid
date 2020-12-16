@@ -14,6 +14,7 @@ $ bundle exec jekyll serve (when in the main folder of project)
 
 It should be running in your localhost 127.0.0.1:4000
  
+If you'd like to just play around with the app on your own browser without pulling to your local machine, here is a link to the most updated version: https://orchid-b3c90.web.app/babylon/Babylon.html 
 
 ## **Orchid: Orch**estra **i**n **D**evelopment 
 
@@ -58,6 +59,8 @@ If users want to use their own samples, all they have to do is login and upload 
 The main codebase of Orchid is located within the babylon folder, of which the main files are **babylon > babylonjs.html, babylon > main.js, and babylon > firebase.js.** These files reference glb files that import custom meshes into the scene and other images. 
 
 The remainder of the codebase corresponds to the rest of the Orchid website, which is extensible for future additions such as musical education articles. 
+
+If you'd like to just play around with the app on your own browser, here is a link to the most updated version: https://orchid-b3c90.web.app/babylon/Babylon.html 
 
 ## Who maintains and contributed to the project? -- **Team Orchid** 
 * **Caroline Sih — Computer Graphics Developer/Audio Engineer.** Caroline is a 4th year BS/MS undergraduate with interests in human-computing interaction and computer architecture. 
