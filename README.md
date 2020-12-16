@@ -1,6 +1,6 @@
 # CSE 118/218 Team Orchid
 
-<img src="https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/Orchidlogo-06.png" width="300" height="300" align="right">
+<img src="https://github.com/WeibelLab-Teaching/CSE_218_118_Fa20_Team_Orchid/blob/main/images/Orchidlogo-06.png" width="350" height="350" align="right">
 
 ## Instructions to run:
 
